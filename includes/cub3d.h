@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 23:35:31 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/08 01:48:51 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/08 06:00:31 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,9 @@ typedef struct  s_vars {
     
     double      Xa;
     double      Ya;
-    
+
+    int         len_x;
+    int         len_y;
     char        **map;
 }               t_vars;
 
@@ -64,5 +66,6 @@ void        my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void        my_mlx_draw_square(t_data *data, int x1, int y1, int color);
 
 int	        get_coordinates(t_vars *vars);
+int         cast_ray(t_vars *vars);
 
 #endif

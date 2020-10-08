@@ -6,20 +6,20 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/08 01:29:01 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/08 04:34:36 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/08 06:04:53 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 
-void print_ray(t_img *img, int x, int y, double start, int len)
+void print_ray(t_data *img, int x, int y, double start, int len)
 {
 	int c = 0;
 
 	while (c < len)
 	{
-		my_mlx_pixel_put(img, x + c * cos(start), y + c * sin(start), 0Xcccccc);
+		my_mlx_pixel_put(img, x + c * cos(start), y + c * sin(start), 0xFF9900);
 		c++;
 	}	
 }
@@ -50,7 +50,7 @@ int		ft_look_right(double f)
 	return (-1);
 }
 
-static int horizontal_ray(t_vars *vars, double ray, int x_len, int y_len)
+static int horizontal_ray(t_vars *vars, double ray)
 {
 	double cord_x;
 	double cord_y;
@@ -63,19 +63,18 @@ static int horizontal_ray(t_vars *vars, double ray, int x_len, int y_len)
     cord_y = ((int)(vars->Py / 64)) * 64 + (ft_look_up(ray) == 1 ? -0.0001 : 64); // Была ошибка
 	if (ray > 0 && ray < M_PI)
     {
-        cord_x = vars->Px + abs(vars->Py - cord_y) / tan(ray);
+        cord_x = vars->Px + fabs(vars->Py - cord_y) / tan(ray);
         vars->Xa = vars->Ya / tan(ray);           
     }
     else // ray > M_PI && ray < M_PI * 2
     {
-        cord_x = vars->Px + abs(vars->Py - cord_y) / tan(2 * M_PI - ray);
+        cord_x = vars->Px + fabs(vars->Py - cord_y) / tan(2 * M_PI - ray);
         vars->Xa = vars->Ya / tan(2 * M_PI - ray);
     }
 	vars->Ya = (ft_look_up(ray) == 1) ? -64 : 64; // Была ошибка
-	
 	map_x = (int)(cord_x / 64);
 	map_y = (int)(cord_y / 64);
-	while (map_x >= 0 && map_y >= 0 && map_x < x_len && map_y < y_len
+	while (map_x >= 0 && map_y >= 0 && map_x < vars->len_x && map_y < vars->len_y
 		&& vars->map[map_y][map_x] != '1')
     {
         cord_x += vars->Xa;
@@ -86,7 +85,7 @@ static int horizontal_ray(t_vars *vars, double ray, int x_len, int y_len)
 	return (sqrt(pow(cord_x - vars->Px, 2) + pow(cord_y - vars->Py, 2)));
 }
 
-static int vertical_ray(t_vars *vars, double ray, int x_len, int y_len)
+static int vertical_ray(t_vars *vars, double ray)
 {
 	double cord_x;
 	double cord_y;
@@ -97,14 +96,20 @@ static int vertical_ray(t_vars *vars, double ray, int x_len, int y_len)
 	cord_y = 0;
 	cord_x = 0;
 	cord_x = ((int)(vars->Py / 64)) * 64 + (ft_look_right(ray) == 1 ? 64 : -0.0001);
-	check = tan(ray);
-	cord_y = vars->Py  + (vars->Px - cord_x)*tan(ray) * (-1); // *(-1) (возможно)
-	vars->Xa = (ft_look_right(ray) == 1) ? 64 : -64;
-	vars->Ya = tan(ray)*vars->Xa;
-
+    if (ray > 3 * M_PI / 2 && ray < M_PI_2)
+    {
+        cord_y = vars->Py  + fabs(vars->Px - cord_x)*tan(ray);
+        vars->Ya = tan(2 * M_PI - ray)*64;   
+    }
+    else
+    {
+        cord_y = vars->Py  + fabs(vars->Px - cord_x)*tan(2 * M_PI - ray);
+        vars->Ya = tan(ray)*64;    
+    }
+    vars->Xa = (ft_look_right(ray) == 1) ? 64 : -64;
 	map_x = (int)(cord_x / 64);
 	map_y = (int)(cord_y / 64);
-	while (map_x >= 0 && map_y >= 0 && map_x < x_len && map_y < y_len
+	while (map_x >= 0 && map_y >= 0 && map_x < vars->len_x && map_y < vars->len_y
 		&& vars->map[map_y][map_x] != '1')
 	{
 		cord_x += vars->Xa;
@@ -115,14 +120,14 @@ static int vertical_ray(t_vars *vars, double ray, int x_len, int y_len)
 	return (sqrt(pow(cord_x - vars->Px, 2) + pow(cord_y - vars->Py, 2)));
 }
 
-int cast_ray(t_vars *vars, t_img *img, t_params *params)
+int cast_ray(t_vars *vars)
 {
 	double      start;
 	int vert_len;
 	int horiz_len;
 	int current_len;
 	
-	start = vars->POV - FOV / 2;
+	start = vars->POV;
 	current_len = 0;
 	if (ft_look_up(start) == 0)
 		current_len = vertical_ray(vars, start);
@@ -134,9 +139,9 @@ int cast_ray(t_vars *vars, t_img *img, t_params *params)
 		horiz_len = horizontal_ray(vars, start);
 		current_len = vert_len > horiz_len ? horiz_len : vert_len;
 	}
-	print_ray(img, vars->Px, vars->Py, start, current_len);
+	print_ray(&vars->img, vars->Px, vars->Py, start, current_len);
 	start += 60 / screenWidth; //поменял FOV на 60
-
+    return (0);
 //перевернутая по каким-то причинам ориентация N и S
 //не отображается первая строчка
 //сегфол вечный...

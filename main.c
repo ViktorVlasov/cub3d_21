@@ -6,26 +6,28 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 23:35:22 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/08 01:15:31 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/08 06:02:15 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/cub3d.h"
 
-char  **save_map(int size, t_list **tmp)
+char  **save_map(int size, t_list **tmp, t_vars *vars)
 {
     int i = 0;
     char **map = ft_calloc(size + 1, sizeof(char *));
     t_list *list = *tmp;
+    vars->len_y = size;
+    vars->len_x = 0;
     while(list)
     {
         map[i] = ft_strdup(list->content);
+        vars->len_x = (int)ft_strlen(map[i]) > vars->len_x ? (int)ft_strlen(map[i]) : vars->len_x;
         list = list->next;
         i++;
     }
     map[i] = NULL;  //  Может быть нужен 0, хотя это обращение к строке...
     i = 0;
-    
     return(map);
 }
 
@@ -42,9 +44,8 @@ int main(int argc, char **argv)
     fd = open(argv[1], O_RDONLY);
     while (get_next_line(fd, &line) > 0)
         ft_lstadd_back(&tmp, ft_lstnew(line));
-    ft_lstadd_back(&tmp, ft_lstnew(line));
-    vars.map = save_map(ft_lstsize(tmp), &tmp);
-
+    ft_lstadd_back(&tmp, ft_lstnew(line)); 
+    vars.map = save_map(ft_lstsize(tmp), &tmp, &vars);
 
     /*
     * Инициализация переменных, minilibx
@@ -53,11 +54,13 @@ int main(int argc, char **argv)
     vars.win_mlx = mlx_new_window(vars.mlx, screenWidth, screenHeight, "test");
     vars.img.img = mlx_new_image(vars.mlx, screenWidth, screenHeight);
     vars.img.addr = mlx_get_data_addr(vars.img.img, &vars.img.bits_per_pixel, &vars.img.line_length, &vars.img.endian);
-    
+    get_coordinates(&vars);
     /*
     * Отрисовка карты, отрисовка игрока, отрисовка лучей.
     */
     t_draw_map(&vars.img, vars.map);
+    my_mlx_pixel_put(&(vars.img), vars.Px, vars.Py, GREEN); 
+    cast_ray(&vars);
     
     mlx_put_image_to_window(vars.mlx, vars.win_mlx, vars.img.img, 0, 0);
     
