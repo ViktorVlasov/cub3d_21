@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 23:35:22 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/08 06:02:15 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/08 07:32:32 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int main(int argc, char **argv)
     * Отрисовка карты, отрисовка игрока, отрисовка лучей.
     */
     t_draw_map(&vars.img, vars.map);
-    my_mlx_pixel_put(&(vars.img), vars.Px, vars.Py, GREEN); 
+    my_mlx_pixel_put(&(vars.img), vars.Px, vars.Py, GREEN);
     cast_ray(&vars);
     
     mlx_put_image_to_window(vars.mlx, vars.win_mlx, vars.img.img, 0, 0);

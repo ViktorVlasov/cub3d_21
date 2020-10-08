@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/08 01:29:01 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/08 06:04:53 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/08 07:38:56 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,20 +91,19 @@ static int vertical_ray(t_vars *vars, double ray)
 	double cord_y;
 	int map_x;
 	int map_y;
-	double check;
 	
 	cord_y = 0;
 	cord_x = 0;
-	cord_x = ((int)(vars->Py / 64)) * 64 + (ft_look_right(ray) == 1 ? 64 : -0.0001);
+	cord_x = ((int)(vars->Px / 64)) * 64 + (ft_look_right(ray) == 1 ? 64 : -0.0001);
     if (ray > 3 * M_PI / 2 && ray < M_PI_2)
     {
         cord_y = vars->Py  + fabs(vars->Px - cord_x)*tan(ray);
-        vars->Ya = tan(2 * M_PI - ray)*64;   
+        vars->Ya = tan(ray)*64;   
     }
     else
     {
         cord_y = vars->Py  + fabs(vars->Px - cord_x)*tan(2 * M_PI - ray);
-        vars->Ya = tan(ray)*64;    
+        vars->Ya = tan(2 * M_PI - ray)*64;    
     }
     vars->Xa = (ft_look_right(ray) == 1) ? 64 : -64;
 	map_x = (int)(cord_x / 64);

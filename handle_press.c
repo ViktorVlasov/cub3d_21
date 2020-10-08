@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/08 00:27:54 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/08 06:12:01 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/08 07:35:24 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int events(int keycode, t_vars *vars)
 		ft_close(vars);
     if (keycode == 124)
 	{
+        printf("%f\n", vars->POV); 
 		vars->POV += 0.0872665;
 		if (vars->POV >= 2 * M_PI)
 			vars->POV -= 2 * M_PI;
@@ -38,6 +39,7 @@ int events(int keycode, t_vars *vars)
 	}
 	if (keycode == 123)
 	{
+        printf("%f\n", vars->POV); 
 		vars->POV -= 0.0872665;
 		if (vars->POV <= 0)
 			vars->POV += 2 * M_PI;
