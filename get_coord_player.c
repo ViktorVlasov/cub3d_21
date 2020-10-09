@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/08 01:18:00 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/08 01:24:18 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/09 21:12:44 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static void get_pov(char *direction, double *pov)
 {
-	if (*direction == 'N')
-		*pov = 3 * M_PI_2;
 	if (*direction == 'S')
+		*pov = 3 * M_PI_2;
+	if (*direction == 'N')
 		*pov = M_PI_2;
 	if (*direction == 'W')
 		*pov = M_PI;

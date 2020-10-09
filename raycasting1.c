@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/08 01:29:01 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/08 07:38:56 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/10 00:00:49 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void print_ray(t_data *img, int x, int y, double start, int len)
 
 	while (c < len)
 	{
-		my_mlx_pixel_put(img, x + c * cos(start), y + c * sin(start), 0xFF9900);
+		my_mlx_pixel_put(img, x + c * cos(start), y - c * sin(start), 0xFF9900);
 		c++;
 	}	
 }
@@ -50,6 +50,13 @@ int		ft_look_right(double f)
 	return (-1);
 }
 
+void	make_angle(double *ray)
+{
+	while (*ray > 2 * M_PI)
+		*ray -= 2 * M_PI;
+	while (*ray < 0)
+		*ray += 2 * M_PI;
+}
 static int horizontal_ray(t_vars *vars, double ray)
 {
 	double cord_x;
@@ -61,15 +68,15 @@ static int horizontal_ray(t_vars *vars, double ray)
 	cord_y = 0;
 	cord_x = 0;
     cord_y = ((int)(vars->Py / 64)) * 64 + (ft_look_up(ray) == 1 ? -0.0001 : 64); // Была ошибка
+	cord_x = vars->Px + (vars->Py - cord_y) / tan(ray);
+	make_angle(&ray);
 	if (ray > 0 && ray < M_PI)
     {
-        cord_x = vars->Px + fabs(vars->Py - cord_y) / tan(ray);
-        vars->Xa = vars->Ya / tan(ray);           
+        vars->Xa = 64 / tan(ray);           
     }
     else // ray > M_PI && ray < M_PI * 2
     {
-        cord_x = vars->Px + fabs(vars->Py - cord_y) / tan(2 * M_PI - ray);
-        vars->Xa = vars->Ya / tan(2 * M_PI - ray);
+        vars->Xa = 64 / tan(2 * M_PI - ray);
     }
 	vars->Ya = (ft_look_up(ray) == 1) ? -64 : 64; // Была ошибка
 	map_x = (int)(cord_x / 64);
@@ -95,15 +102,15 @@ static int vertical_ray(t_vars *vars, double ray)
 	cord_y = 0;
 	cord_x = 0;
 	cord_x = ((int)(vars->Px / 64)) * 64 + (ft_look_right(ray) == 1 ? 64 : -0.0001);
-    if (ray > 3 * M_PI / 2 && ray < M_PI_2)
+	cord_y = vars->Py  + (vars->Px - cord_x) * tan(ray);
+	make_angle(&ray);
+    if (ray > 3 * M_PI / 2 || ray < M_PI_2)
     {
-        cord_y = vars->Py  + fabs(vars->Px - cord_x)*tan(ray);
-        vars->Ya = tan(ray)*64;   
+        vars->Ya = tan(2 * M_PI - ray) * 64;   
     }
     else
     {
-        cord_y = vars->Py  + fabs(vars->Px - cord_x)*tan(2 * M_PI - ray);
-        vars->Ya = tan(2 * M_PI - ray)*64;    
+        vars->Ya = tan(ray) * 64;    
     }
     vars->Xa = (ft_look_right(ray) == 1) ? 64 : -64;
 	map_x = (int)(cord_x / 64);
@@ -126,20 +133,29 @@ int cast_ray(t_vars *vars)
 	int horiz_len;
 	int current_len;
 	
-	start = vars->POV;
-	current_len = 0;
-	if (ft_look_up(start) == 0)
-		current_len = vertical_ray(vars, start);
-	else if (ft_look_right(start) == 0)
-		current_len = horizontal_ray(vars, start);
-	else 
-	{
-		vert_len = vertical_ray(vars, start);
-		horiz_len = horizontal_ray(vars, start);
-		current_len = vert_len > horiz_len ? horiz_len : vert_len;
+	start = vars->POV - 0.0872665 * 2;
+	// start = -0.000872665;
+	start = vars->POV - M_PI / 6;
+	double end = vars->POV + M_PI / 6;
+	while (start <= end)
+	{   
+		current_len = 0;
+		if (ft_look_up(start) == 0)
+			current_len = vertical_ray(vars, start);
+		else if (ft_look_right(start) == 0)
+			current_len = horizontal_ray(vars, start);
+		else 
+		{
+			vert_len = vertical_ray(vars, start);
+			horiz_len = horizontal_ray(vars, start);
+			vert_len = (vert_len < 0) ? horiz_len : vert_len;
+			horiz_len = (horiz_len < 0) ? vert_len : horiz_len;
+			current_len = vert_len > horiz_len ? horiz_len : vert_len;
+		}
+		print_ray(&vars->img, vars->Px, vars->Py, start, current_len);
+		start += ((M_PI / 3) / screenWidth);
 	}
-	print_ray(&vars->img, vars->Px, vars->Py, start, current_len);
-	start += 60 / screenWidth; //поменял FOV на 60
+	//start += 60 / screenWidth; //поменял FOV на 60
     return (0);
 //перевернутая по каким-то причинам ориентация N и S
 //не отображается первая строчка
