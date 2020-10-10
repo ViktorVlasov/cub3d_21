@@ -6,11 +6,11 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/22 11:33:07 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/08 00:15:46 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/03 18:38:11 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/cub3d.h"
+#include "../includes/cub3d.h"
 
 static char	*ft_check_rem(char **remainder, char **line, int *error_flag)
 {

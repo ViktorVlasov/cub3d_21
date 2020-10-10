@@ -1,6 +1,6 @@
 if [[ "$1" == "-g"  ]]; then 
-gcc -g ./lib/libft.a -I./includes *.c ./lib/libmlx.a -framework OpenGL -framework Appkit
+gcc main.c -g ./lib/libft.a -I./includes parser/*.c graphics/*.c ./lib/libmlx.a -framework OpenGL -framework Appkit
 else 
-gcc ./lib/libft.a -I./includes *.c ./lib/libmlx.a -framework OpenGL -framework Appkit
+gcc main.c ./lib/libft.a -I./includes parser/*.c graphics/*.c ./lib/libmlx.a -framework OpenGL -framework Appkit
 ./a.out maps/map.cub
 fi

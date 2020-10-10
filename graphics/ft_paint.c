@@ -6,11 +6,11 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/08 01:06:45 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/08 01:10:17 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/10 22:21:11 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/cub3d.h"
+#include "../includes/cub3d.h"
 
 void            my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {

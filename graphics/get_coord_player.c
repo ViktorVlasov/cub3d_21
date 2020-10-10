@@ -6,11 +6,11 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/08 01:18:00 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/09 21:12:44 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/10 22:16:41 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../includes/cub3d.h"
 
 static void get_pov(char *direction, double *pov)
 {

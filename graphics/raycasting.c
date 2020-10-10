@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   raycasting1.c                                      :+:      :+:    :+:   */
+/*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/08 01:29:01 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/10 20:37:27 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/10 22:38:25 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../includes/cub3d.h"
 
 
 void print_ray(t_data *img, int x, int y, double start, double len)
@@ -154,19 +154,18 @@ int create_walls(t_vars *vars, double current_len, int num_wall)
 	return 0;
 }
 
-int cast_ray(t_vars *vars)
+int				cast_ray(t_vars *vars)
 {
 	double      start;
-	double vert_len;
-	double horiz_len;
-	double current_len;
-	int num_wall;
+	double		vert_len;
+	double		horiz_len;
+	double		current_len;
+	int			num_wall;
+	double		end;
 	
 	num_wall = 0;
-	start = vars->POV - 0.0872665 * 2;
-	// start = -0.000872665;
 	start = vars->POV - M_PI / 6;
-	double end = vars->POV + M_PI / 6;
+	end = vars->POV + M_PI / 6;
 	while (start <= end)
 	{   
 		current_len = 0;
@@ -187,32 +186,5 @@ int cast_ray(t_vars *vars)
 		start += ((M_PI / 3) / screenWidth);
 		num_wall++;
 	}
-	//start += 60 / screenWidth; //поменял FOV на 60
     return (0);
-//перевернутая по каким-то причинам ориентация N и S
-//не отображается первая строчка
-//сегфол вечный...
-//при S - кривой луч
-
-	
-	// start = vars->POV - FOV / 2;
-	// double end = vars->POV + FOV / 2;
-	// while (start <= end)
-	// {   
-	// 	current_len = 0;
-	// 	if (ft_look_up(start) == 0)
-	// 		current_len = vertical_ray(vars, start, params->len_x, params->len_y);
-	// 	else if (ft_look_right(start) == 0)
-	// 		current_len = horizontal_ray(vars, start, params->len_x, params->len_y);
-	// 	else 
-	// 	{
-	// 		vert_len = vertical_ray(vars, start, params->len_x, params->len_y);
-	// 		horiz_len = horizontal_ray(vars, start, params->len_x, params->len_y);
-	// 		current_len = vert_len > horiz_len ? horiz_len : vert_len;
-	// 	}
-	// 	print_ray(img, vars->Px, vars->Py, start, current_len);
-	// 	start += (60.0 / screenWidth);
-	// 	// start += 0.005;
-	// }
-	// return (0);
 }
