@@ -6,18 +6,18 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/08 01:29:01 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/10 00:00:49 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/10 20:37:27 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 
-void print_ray(t_data *img, int x, int y, double start, int len)
+void print_ray(t_data *img, int x, int y, double start, double len)
 {
 	int c = 0;
 
-	while (c < len)
+	while (c < (int)len)
 	{
 		my_mlx_pixel_put(img, x + c * cos(start), y - c * sin(start), 0xFF9900);
 		c++;
@@ -57,7 +57,7 @@ void	make_angle(double *ray)
 	while (*ray < 0)
 		*ray += 2 * M_PI;
 }
-static int horizontal_ray(t_vars *vars, double ray)
+static double horizontal_ray(t_vars *vars, double ray)
 {
 	double cord_x;
 	double cord_y;
@@ -92,7 +92,7 @@ static int horizontal_ray(t_vars *vars, double ray)
 	return (sqrt(pow(cord_x - vars->Px, 2) + pow(cord_y - vars->Py, 2)));
 }
 
-static int vertical_ray(t_vars *vars, double ray)
+static double vertical_ray(t_vars *vars, double ray)
 {
 	double cord_x;
 	double cord_y;
@@ -126,13 +126,43 @@ static int vertical_ray(t_vars *vars, double ray)
 	return (sqrt(pow(cord_x - vars->Px, 2) + pow(cord_y - vars->Py, 2)));
 }
 
+int create_walls(t_vars *vars, double current_len, int num_wall)
+{
+	int dist_from_player;
+	int wall_height;
+	int top_position_of_wall;
+
+	dist_from_player = vars->s_width / 2 / tan(M_PI / 6);
+	wall_height = 64 / current_len * dist_from_player;
+	wall_height = (wall_height % 2 == 0) ? wall_height : wall_height + 1;
+	top_position_of_wall = abs(vars->s_height - wall_height) / 2;
+	
+	while (wall_height > 0)
+	{
+		if (top_position_of_wall >= vars->s_height)
+		{
+			top_position_of_wall = 0;
+			wall_height = vars->s_height;
+		}
+		if (num_wall >= vars->s_width)
+			num_wall = 0;
+		my_mlx_pixel_put(&(vars->img), num_wall, top_position_of_wall, 0X808080);
+		top_position_of_wall++;
+		wall_height--;
+		// printf("%d\n", top_position_of_wall);
+	}
+	return 0;
+}
+
 int cast_ray(t_vars *vars)
 {
 	double      start;
-	int vert_len;
-	int horiz_len;
-	int current_len;
+	double vert_len;
+	double horiz_len;
+	double current_len;
+	int num_wall;
 	
+	num_wall = 0;
 	start = vars->POV - 0.0872665 * 2;
 	// start = -0.000872665;
 	start = vars->POV - M_PI / 6;
@@ -152,8 +182,10 @@ int cast_ray(t_vars *vars)
 			horiz_len = (horiz_len < 0) ? vert_len : horiz_len;
 			current_len = vert_len > horiz_len ? horiz_len : vert_len;
 		}
-		print_ray(&vars->img, vars->Px, vars->Py, start, current_len);
+		// print_ray(&vars->img, vars->Px, vars->Py, start, cos(vars->POV - start) * current_len);
+		create_walls(vars, cos(vars->POV - start) * current_len, num_wall);
 		start += ((M_PI / 3) / screenWidth);
+		num_wall++;
 	}
 	//start += 60 / screenWidth; //поменял FOV на 60
     return (0);

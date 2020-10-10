@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 23:35:31 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/08 06:00:31 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/10 16:38:07 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,9 @@ typedef struct  s_vars {
     
     double      Xa;
     double      Ya;
+
+    int         s_width;
+    int         s_height;
 
     int         len_x;
     int         len_y;

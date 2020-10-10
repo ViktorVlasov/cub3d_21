@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 23:35:22 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/08 07:32:32 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/10 20:37:19 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ int main(int argc, char **argv)
     * Инициализация переменных, minilibx
     */
     vars.mlx = mlx_init();
+    vars.s_width = screenWidth;
+    vars.s_height = screenHeight;
     vars.win_mlx = mlx_new_window(vars.mlx, screenWidth, screenHeight, "test");
     vars.img.img = mlx_new_image(vars.mlx, screenWidth, screenHeight);
     vars.img.addr = mlx_get_data_addr(vars.img.img, &vars.img.bits_per_pixel, &vars.img.line_length, &vars.img.endian);
@@ -58,8 +60,8 @@ int main(int argc, char **argv)
     /*
     * Отрисовка карты, отрисовка игрока, отрисовка лучей.
     */
-    t_draw_map(&vars.img, vars.map);
-    my_mlx_pixel_put(&(vars.img), vars.Px, vars.Py, GREEN);
+    // t_draw_map(&vars.img, vars.map);
+    // my_mlx_pixel_put(&(vars.img), vars.Px, vars.Py, GREEN);
     cast_ray(&vars);
     
     mlx_put_image_to_window(vars.mlx, vars.win_mlx, vars.img.img, 0, 0);
