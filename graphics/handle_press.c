@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/08 00:27:54 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/10 22:16:55 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/10 23:30:14 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int events(int keycode, t_vars *vars)
 	int change_x;
 	int change_y;
 	
-	change_x = 15 * cos(vars->POV);
-	change_y = 15 * sin(vars->POV);
+	change_x = 20 * cos(vars->POV);
+	change_y = 20 * sin(vars->POV);
 	if (keycode == 53)
 		ft_close(vars);
 	if (keycode == 13)
@@ -47,16 +47,16 @@ int events(int keycode, t_vars *vars)
 	{
 		if (vars->map[(int)((vars->Py + change_y) / 64)][(int)((vars->Px - change_x) / 64)] != '1')
 		{
-			vars->Px -= 15 * cos(M_PI_2 - vars->POV);
-			vars->Py -= 15 * sin(M_PI_2 - vars->POV);
+			vars->Px -= 5 * cos(M_PI_2 - vars->POV);
+			vars->Py -= 5 * sin(M_PI_2 - vars->POV);
 		}
 	}
 	if (keycode == 0)
 	{
 		if (vars->map[(int)((vars->Py + change_y) / 64)][(int)((vars->Px - change_x) / 64)] != '1')
 		{
-			vars->Px += 15 * cos(M_PI_2 - vars->POV);
-			vars->Py += 15 * sin(M_PI_2 - vars->POV);
+			vars->Px += 5 * cos(M_PI_2 - vars->POV);
+			vars->Py += 5 * sin(M_PI_2 - vars->POV);
 		}
 	}
     if (keycode == 124)
@@ -74,7 +74,7 @@ int events(int keycode, t_vars *vars)
 			vars->POV -= 2 * M_PI;	
 	}
 	mlx_destroy_image(vars->mlx, vars->img.img);
-	vars->img.img = mlx_new_image(vars->mlx, screenWidth, screenHeight);
+	vars->img.img = mlx_new_image(vars->mlx, vars->s_width, vars->s_height);
     vars->img.addr = mlx_get_data_addr(vars->img.img, &vars->img.bits_per_pixel, &vars->img.line_length, &vars->img.endian);
 	// t_draw_map(&vars->img, vars->map);
     // my_mlx_pixel_put(&(vars->img), vars->Px, vars->Py, GREEN); 

@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 23:35:31 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/10 22:34:58 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/11 01:55:19 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@
 # define BUFFER_SIZE 4
 # define BLOCK_SIZE 64
 
-# define screenWidth 1920
-# define screenHeight 1080
+// # define screenWidth 1920
+// # define screenHeight 1080
 
 typedef struct  s_txtr
 {
@@ -64,9 +64,23 @@ typedef struct  s_data {
     int         bits_per_pixel;
     int         line_length;
     int         endian;
+    int         img_width;
+    int         img_height;
 }               t_data;
 
+typedef struct  s_images
+{
+    t_data      n_img;
+    t_data      s_img;
+    t_data      w_img;
+    t_data      e_img;
+    t_data      sprite_img;
+}               t_images;
+
+
 typedef struct  s_vars {
+    t_images    textur;
+
     void        *mlx;
     void        *win_mlx;
     t_data      img;
@@ -84,6 +98,9 @@ typedef struct  s_vars {
     int         len_x;
     int         len_y;
     char        **map;
+
+    double      offset_x_hor;
+    double      offset_y_vert;
 }               t_vars;
 
 int	        get_next_line(int fd, char **line);

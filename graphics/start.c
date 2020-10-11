@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 23:35:22 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/10 22:29:49 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/11 04:29:27 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int     start(t_params *params, t_txtr *textures, int screen)
 {
-    t_vars vars;
+    t_vars      vars;
     
     /*
     * Инициализация переменных, minilibx
@@ -28,6 +28,14 @@ int     start(t_params *params, t_txtr *textures, int screen)
     vars.win_mlx = mlx_new_window(vars.mlx, vars.s_width, vars.s_height, "Cub3D");
     vars.img.img = mlx_new_image(vars.mlx, vars.s_width, vars.s_width);
     vars.img.addr = mlx_get_data_addr(vars.img.img, &vars.img.bits_per_pixel, &vars.img.line_length, &vars.img.endian);
+    vars.textur.n_img.img = mlx_xpm_file_to_image(vars.mlx, textures->no_texture, &vars.textur.n_img.img_width, &vars.textur.n_img.img_height);
+    vars.textur.n_img.addr = mlx_get_data_addr(vars.textur.n_img.img, &vars.textur.n_img.bits_per_pixel, &vars.textur.n_img.line_length, &vars.textur.n_img.endian);
+    //vars.textur.s_img.img = mlx_xpm_file_to_image(vars.mlx, textures->so_texture, &vars.textur.s_img.img_width, &vars.textur.s_img.img_height);
+    //vars.textur.w_img.img = mlx_xpm_file_to_image(vars.mlx, textures->we_texture, &vars.textur.w_img.img_width, &vars.textur.w_img.img_height);
+    //vars.textur.e_img.img = mlx_xpm_file_to_image(vars.mlx, textures->ea_texture, &vars.textur.e_img.img_width, &vars.textur.e_img.img_height);
+    
+    vars.offset_y_vert = -1;
+    vars.offset_x_hor = -1;
     get_coordinates(&vars);
     /*
     * Отрисовка карты, отрисовка игрока, отрисовка лучей.

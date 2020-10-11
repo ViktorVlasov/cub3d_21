@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/08 01:29:01 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/10 22:38:25 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/11 04:33:34 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ static double horizontal_ray(t_vars *vars, double ray)
 		map_x = ((int)(cord_x / 64));
 		map_y = ((int)(cord_y / 64));
     }
+	vars->offset_x_hor = cord_x;
 	return (sqrt(pow(cord_x - vars->Px, 2) + pow(cord_y - vars->Py, 2)));
 }
 
@@ -123,7 +124,28 @@ static double vertical_ray(t_vars *vars, double ray)
 		map_x = (int)(cord_x / 64);
 		map_y = (int)(cord_y / 64);
 	}
+	vars->offset_y_vert = cord_y;
 	return (sqrt(pow(cord_x - vars->Px, 2) + pow(cord_y - vars->Py, 2)));
+}
+
+int	color_by_x(t_vars *vars, int y)
+{
+	int x;
+	int color;
+	
+	x = (int)vars->offset_x_hor % 64;
+	color = *(vars->textur.n_img.addr + y * vars->textur.n_img.line_length + x * (vars->textur.n_img.bits_per_pixel / 8));
+	return (color);
+}
+
+int color_by_y(t_vars *vars, int x)
+{
+	int y;
+	int color;
+	
+	y = (int)vars->offset_y_vert % 64;
+	color = *(vars->textur.n_img.addr + x * vars->textur.n_img.line_length + y * (vars->textur.n_img.bits_per_pixel / 8));
+	return (color);
 }
 
 int create_walls(t_vars *vars, double current_len, int num_wall)
@@ -131,12 +153,14 @@ int create_walls(t_vars *vars, double current_len, int num_wall)
 	int dist_from_player;
 	int wall_height;
 	int top_position_of_wall;
-
+	int cur_color;
+	int iterator;
+	
 	dist_from_player = vars->s_width / 2 / tan(M_PI / 6);
 	wall_height = 64 / current_len * dist_from_player;
 	wall_height = (wall_height % 2 == 0) ? wall_height : wall_height + 1;
 	top_position_of_wall = abs(vars->s_height - wall_height) / 2;
-	
+	iterator = 0;
 	while (wall_height > 0)
 	{
 		if (top_position_of_wall >= vars->s_height)
@@ -146,10 +170,12 @@ int create_walls(t_vars *vars, double current_len, int num_wall)
 		}
 		if (num_wall >= vars->s_width)
 			num_wall = 0;
-		my_mlx_pixel_put(&(vars->img), num_wall, top_position_of_wall, 0X808080);
+		cur_color = (vars->offset_x_hor == -1) ? color_by_x(vars, iterator) : color_by_y(vars, iterator);
+		my_mlx_pixel_put(&(vars->img), num_wall, top_position_of_wall, cur_color);
 		top_position_of_wall++;
 		wall_height--;
-		// printf("%d\n", top_position_of_wall);
+		iterator++;
+		// printf("%f %f\n", vars->offset_x_hor, vars->offset_y_vert);
 	}
 	return 0;
 }
@@ -180,10 +206,11 @@ int				cast_ray(t_vars *vars)
 			vert_len = (vert_len < 0) ? horiz_len : vert_len;
 			horiz_len = (horiz_len < 0) ? vert_len : horiz_len;
 			current_len = vert_len > horiz_len ? horiz_len : vert_len;
+			current_len == vert_len ? (vars->offset_x_hor = -1) : (vars->offset_y_vert = -1);
 		}
 		// print_ray(&vars->img, vars->Px, vars->Py, start, cos(vars->POV - start) * current_len);
 		create_walls(vars, cos(vars->POV - start) * current_len, num_wall);
-		start += ((M_PI / 3) / screenWidth);
+		start += ((M_PI / 3) / vars->s_width);
 		num_wall++;
 	}
     return (0);
