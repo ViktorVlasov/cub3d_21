@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/08 01:29:01 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/11 04:33:34 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/11 20:51:06 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,12 +155,17 @@ int create_walls(t_vars *vars, double current_len, int num_wall)
 	int top_position_of_wall;
 	int cur_color;
 	int iterator;
+	double coef;
+	int y_pixel;
 	
 	dist_from_player = vars->s_width / 2 / tan(M_PI / 6);
 	wall_height = 64 / current_len * dist_from_player;
 	wall_height = (wall_height % 2 == 0) ? wall_height : wall_height + 1;
 	top_position_of_wall = abs(vars->s_height - wall_height) / 2;
-	iterator = 0;
+	iterator = top_position_of_wall;
+
+	coef = 64 / (wall_height);
+	
 	while (wall_height > 0)
 	{
 		if (top_position_of_wall >= vars->s_height)
@@ -170,7 +175,9 @@ int create_walls(t_vars *vars, double current_len, int num_wall)
 		}
 		if (num_wall >= vars->s_width)
 			num_wall = 0;
-		cur_color = (vars->offset_x_hor == -1) ? color_by_x(vars, iterator) : color_by_y(vars, iterator);
+		//cur_color = (vars->offset_x_hor == -1) ? color_by_x(vars, iterator) : color_by_y(vars, iterator);
+		y_pixel = (iterator - top_position_of_wall) * coef;
+		cur_color = my_mlx_pixel_get_color(&vars->textur.n_img, 0, y_pixel);
 		my_mlx_pixel_put(&(vars->img), num_wall, top_position_of_wall, cur_color);
 		top_position_of_wall++;
 		wall_height--;
@@ -206,7 +213,7 @@ int				cast_ray(t_vars *vars)
 			vert_len = (vert_len < 0) ? horiz_len : vert_len;
 			horiz_len = (horiz_len < 0) ? vert_len : horiz_len;
 			current_len = vert_len > horiz_len ? horiz_len : vert_len;
-			current_len == vert_len ? (vars->offset_x_hor = -1) : (vars->offset_y_vert = -1);
+			//current_len == vert_len ? (vars->offset_x_hor = -1) : (vars->offset_y_vert = -1);
 		}
 		// print_ray(&vars->img, vars->Px, vars->Py, start, cos(vars->POV - start) * current_len);
 		create_walls(vars, cos(vars->POV - start) * current_len, num_wall);

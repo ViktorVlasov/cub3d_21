@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 23:35:31 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/11 01:55:19 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/11 20:36:29 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,5 +135,7 @@ void        my_mlx_draw_square(t_data *data, int x1, int y1, int color);
 
 int	        get_coordinates(t_vars *vars);
 int         cast_ray(t_vars *vars);
+
+int            my_mlx_pixel_get_color(t_data *data, int x, int y);
 
 #endif

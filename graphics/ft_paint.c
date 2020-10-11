@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/08 01:06:45 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/10 22:21:11 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/11 20:36:25 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,17 @@ void            my_mlx_pixel_put(t_data *data, int x, int y, int color)
 
     dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8)); // Находим адрес пикселя
     *(unsigned int*)dst = color; // Закрашиваем его
+
+}
+
+int            my_mlx_pixel_get_color(t_data *data, int x, int y)
+{
+    char    *dst;
+    int color;
+
+    dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8)); // Находим адрес пикселя
+    color = *(unsigned int*)dst; // Закрашиваем его
+    return (color);
 }
 
 void            my_mlx_draw_square(t_data *data, int x1, int y1, int color)
