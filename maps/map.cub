@@ -1,5 +1,5 @@
-R 2560 1440
-NO ./textures/widk.xpm
+R 1400 900
+NO ./textures/wstone.xpm
 SO ./textures/woodwall.xpm
 WE ./textures/wstone.xpm
 EA ./textures/widk.xpm

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 23:35:31 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/11 20:36:29 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/11 22:06:04 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,14 @@
 # define BUFFER_SIZE 4
 # define BLOCK_SIZE 64
 
-// # define screenWidth 1920
-// # define screenHeight 1080
+# define ESC_KEY 53
+# define W_KEY 13
+# define A_KEY 0
+# define S_KEY 1
+# define D_KEY 2
+# define Q_KEY 12
+# define RIGHT_KEY 124
+# define LEFT_KEY 123
 
 typedef struct  s_txtr
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_press.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/08 00:27:54 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/10 23:30:14 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/11 22:57:11 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,15 @@ int events(int keycode, t_vars *vars)
 {
 	int change_x;
 	int change_y;
+	char check;
+	int i;
+	int j;
 	
 	change_x = 20 * cos(vars->POV);
 	change_y = 20 * sin(vars->POV);
-	if (keycode == 53)
+	if (keycode == ESC_KEY)
 		ft_close(vars);
-	if (keycode == 13)
+	if (keycode == W_KEY)
 	{
 		if (vars->map[(int)((vars->Py - change_y) / 64)][(int)((vars->Px + change_x) / 64)] != '1')
 		{
@@ -35,7 +38,7 @@ int events(int keycode, t_vars *vars)
 			vars->Py -= change_y;
 		}
 	}
-	if (keycode == 1)
+	if (keycode == S_KEY)
 	{
 		if (vars->map[(int)((vars->Py + change_y) / 64)][(int)((vars->Px - change_x) / 64)] != '1')
 		{
@@ -43,30 +46,32 @@ int events(int keycode, t_vars *vars)
 			vars->Py += change_y;
 		}
 	}
-	if (keycode == 2)
+	change_y = 5 * sin(M_PI_2 - vars->POV);
+	change_x = 5 * cos(M_PI_2 - vars->POV);
+	if (keycode == D_KEY)
 	{
-		if (vars->map[(int)((vars->Py + change_y) / 64)][(int)((vars->Px - change_x) / 64)] != '1')
+		if (vars->map[(int)((vars->Py - change_y) / 64)][(int)((vars->Px - change_x) / 64)] != '1')
 		{
-			vars->Px -= 5 * cos(M_PI_2 - vars->POV);
-			vars->Py -= 5 * sin(M_PI_2 - vars->POV);
+			vars->Px -= change_x;
+			vars->Py -= change_y;
 		}
 	}
-	if (keycode == 0)
+	if (keycode == A_KEY)
 	{
-		if (vars->map[(int)((vars->Py + change_y) / 64)][(int)((vars->Px - change_x) / 64)] != '1')
+		if (vars->map[(int)((vars->Py + change_y) / 64)][(int)((vars->Px + change_x) / 64)] != '1')
 		{
-			vars->Px += 5 * cos(M_PI_2 - vars->POV);
-			vars->Py += 5 * sin(M_PI_2 - vars->POV);
+			vars->Px += change_x;
+			vars->Py += change_y;
 		}
 	}
-    if (keycode == 124)
+    if (keycode == RIGHT_KEY)
 	{
         printf("%f\n", vars->POV); 
 		vars->POV += 0.0872665;
 		if (vars->POV <= 0)
 			vars->POV += 2 * M_PI;
 	}
-	if (keycode == 123)
+	if (keycode == LEFT_KEY)
 	{
         printf("%f\n", vars->POV); 
 		vars->POV -= 0.0872665;
