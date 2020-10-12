@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 23:35:31 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/12 17:46:09 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/12 22:48:16 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,11 @@ typedef struct  s_images
     t_data      sprite_img;
 }               t_images;
 
+typedef struct  s_sprite
+{
+    int         sprite_x;
+    int         sprite_y;
+}               t_sprite;
 
 typedef struct  s_vars {
     t_images    textur;
@@ -94,6 +99,7 @@ typedef struct  s_vars {
     int         Px;
     int         Py;
     double      POV;
+    double      current_ray;
     
     double      Xa;
     double      Ya;
@@ -110,6 +116,7 @@ typedef struct  s_vars {
     
     int    		floor_color;
 	int    		ceilling_color;
+    
 }               t_vars;
 
 int	        get_next_line(int fd, char **line);
@@ -133,6 +140,7 @@ int		    ft_choice(char c, char *str);
 int		    ft_choice_mass(char **map, char *set);
 void        free_all(char *line, t_list *head);
 int		    ft_full_map(char **map);
+t_sprite    *get_sprite_cord(t_vars *vars);
 
 /* Raycasting */
 
@@ -145,6 +153,6 @@ void        my_mlx_draw_square(t_data *data, int x1, int y1, int color);
 int	        get_coordinates(t_vars *vars);
 int         cast_ray(t_vars *vars);
 
-int            my_mlx_pixel_get_color(t_data *data, int x, int y);
+int         my_mlx_pixel_get_color(t_data *data, int x, int y);
 
 #endif

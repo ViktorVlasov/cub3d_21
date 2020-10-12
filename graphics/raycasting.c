@@ -50,12 +50,13 @@ int		ft_look_right(double f)
 	return (-1);
 }
 
-void	make_angle(double *ray)
+double	make_angle(double ray)
 {
-	while (*ray > 2 * M_PI)
-		*ray -= 2 * M_PI;
-	while (*ray < 0)
-		*ray += 2 * M_PI;
+	while (ray > 2 * M_PI)
+		ray -= 2 * M_PI;
+	while (ray < 0)
+		ray += 2 * M_PI;
+	return (ray);
 }
 static double horizontal_ray(t_vars *vars, double ray)
 {
@@ -69,7 +70,7 @@ static double horizontal_ray(t_vars *vars, double ray)
 	cord_x = 0;
     cord_y = ((int)(vars->Py / 64)) * 64 + (ft_look_up(ray) == 1 ? -0.0001 : 64); // Была ошибка
 	cord_x = vars->Px + (vars->Py - cord_y) / tan(ray);
-	make_angle(&ray);
+	ray = make_angle(ray);
 	if (ray > 0 && ray < M_PI)
     {
         vars->Xa = 64 / tan(ray);           
@@ -104,7 +105,7 @@ static double vertical_ray(t_vars *vars, double ray)
 	cord_x = 0;
 	cord_x = ((int)(vars->Px / 64)) * 64 + (ft_look_right(ray) == 1 ? 64 : -0.0001);
 	cord_y = vars->Py  + (vars->Px - cord_x) * tan(ray);
-	make_angle(&ray);
+	ray = make_angle(ray);
     if (ray > 3 * M_PI / 2 || ray < M_PI_2)
     {
         vars->Ya = tan(2 * M_PI - ray) * 64;   
@@ -149,6 +150,27 @@ void paint_floor(t_vars *vars, int bot_pos_of_wall, int num_wall)
 	}
 }
 
+void get_hor_texture(t_vars *vars, t_data *current_texture)
+{
+	if (vars->current_ray > 0 && vars->current_ray < M_PI)
+		*current_texture = vars->textur.n_img;
+	else if (vars->current_ray > M_PI && vars->current_ray < 2 * M_PI)
+		*current_texture = vars->textur.s_img;
+}
+
+void get_vert_texture(t_vars *vars, t_data *current_texture)
+{
+	if (vars->current_ray > 3 * M_PI / 2 || vars->current_ray < M_PI_2)
+		*current_texture = vars->textur.e_img;
+	else if (vars->current_ray > M_PI_2 && vars->current_ray < 3 * M_PI / 2)
+		*current_texture = vars->textur.w_img;
+}
+
+// void print_sprite(t_list *vars)
+// {
+
+// }
+
 int create_walls(t_vars *vars, double current_len, int num_wall)
 {
 	int dist_from_player;
@@ -158,6 +180,7 @@ int create_walls(t_vars *vars, double current_len, int num_wall)
 	double coef;
 	int y_pixel;
 	int begining_of_wall;
+	t_data current_texture;
 	
 	dist_from_player = vars->s_width / 2 / tan(M_PI / 6);
 	wall_height = 64 / current_len * dist_from_player;
@@ -177,14 +200,24 @@ int create_walls(t_vars *vars, double current_len, int num_wall)
 	while (wall_height > 0)
 	{
 		y_pixel = (top_position_of_wall - begining_of_wall) * coef;
+
+		
+
 		if (vars->offset_x_hor != -1)
-			cur_color = my_mlx_pixel_get_color(&vars->textur.n_img, (int)vars->offset_x_hor % 64, y_pixel);
+		{
+			get_hor_texture(vars, &current_texture);
+			cur_color = my_mlx_pixel_get_color(&current_texture, (int)vars->offset_x_hor % 64, y_pixel);
+		}
 		else
-			cur_color = my_mlx_pixel_get_color(&vars->textur.n_img, (int)vars->offset_y_vert % 64, y_pixel);
+		{
+			get_vert_texture(vars, &current_texture);
+			cur_color = my_mlx_pixel_get_color(&current_texture, (int)vars->offset_y_vert % 64, y_pixel);
+		}
 		my_mlx_pixel_put(&(vars->img), num_wall, top_position_of_wall, cur_color);
 		top_position_of_wall++;
 		wall_height--;
 	}
+	// print_sprite(vars);
 	return 0;
 }
 
@@ -217,6 +250,7 @@ int				cast_ray(t_vars *vars)
 			current_len == vert_len ? (vars->offset_x_hor = -1) : (vars->offset_y_vert = -1);
 		}
 		// print_ray(&vars->img, vars->Px, vars->Py, start, cos(vars->POV - start) * current_len);
+		vars->current_ray = make_angle(start);
 		create_walls(vars, cos(vars->POV - start) * current_len, num_wall);
 		start += ((M_PI / 3) / vars->s_width);
 		num_wall++;

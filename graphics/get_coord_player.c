@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_coord_player.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/08 01:18:00 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/10 22:16:41 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/12 22:53:39 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,46 @@ int	get_coordinates(t_vars *vars)
 		i++;
 	}
 	return (0);
+}
+
+t_sprite *get_sprite_cord(t_vars *vars)
+{
+	t_sprite *sprites;
+	int i;
+	int j;
+	int counter;
+
+	counter = 0;
+	i = 0;
+	j = 0;
+	while (vars->map[i] != NULL)
+	{
+		j = 0;
+		while (vars->map[i][j])
+		{
+			if (vars->map[i][j] == '2')
+				counter++;
+			j++;
+		}
+		i++;
+	}
+	sprites = (t_sprite *)malloc(sizeof(t_sprite) * counter);
+	i = 0;
+	counter = 0;
+	while (vars->map[i] != NULL)
+	{
+		j = 0;
+		while (vars->map[i][j])
+		{
+			if (vars->map[i][j] == '2')
+				{
+					sprites[counter].sprite_x = j * BLOCK_SIZE + BLOCK_SIZE / 2;
+					sprites[counter].sprite_y = i * BLOCK_SIZE + BLOCK_SIZE / 2;  
+					counter++;
+				}
+			j++;
+		}
+		i++;
+	}
+	return (sprites);
 }

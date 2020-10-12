@@ -6,7 +6,7 @@
 #    By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/15 11:26:54 by efumiko           #+#    #+#              #
-#    Updated: 2020/10/12 18:29:03 by ddraco           ###   ########.fr        #
+#    Updated: 2020/10/12 23:03:34 by ddraco           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,13 +36,13 @@ $(NAME):$(OBJ)
 	gcc -o $(NAME) $(FLAGS) $(OBJ) -L. -lft libmlx*
 
 clean:
-	rm -rf libmlx.dylib
-	rm -rf libft.a
 	rm -rf $(OBJ)
 	rm -f *.bmp
 	$(MAKE) clean -C libft
 
 fclean: clean
+	rm -rf libmlx.dylib
+	rm -rf libft.a
 	rm -rf $(NAME)
 	$(MAKE) fclean -C libft
 	$(MAKE) clean -C minilibx
