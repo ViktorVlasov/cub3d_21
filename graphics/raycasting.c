@@ -128,26 +128,6 @@ static double vertical_ray(t_vars *vars, double ray)
 	return (sqrt(pow(cord_x - vars->Px, 2) + pow(cord_y - vars->Py, 2)));
 }
 
-int	color_by_x(t_vars *vars, int y)
-{
-	int x;
-	int color;
-	
-	x = (int)vars->offset_x_hor % 64;
-	color = *(vars->textur.n_img.addr + y * vars->textur.n_img.line_length + x * (vars->textur.n_img.bits_per_pixel / 8));
-	return (color);
-}
-
-int color_by_y(t_vars *vars, int x)
-{
-	int y;
-	int color;
-	
-	y = (int)vars->offset_y_vert % 64;
-	color = *(vars->textur.n_img.addr + x * vars->textur.n_img.line_length + y * (vars->textur.n_img.bits_per_pixel / 8));
-	return (color);
-}
-
 void paint_ceiling(t_vars *vars, int top_pos_of_wall, int num_wall)
 {
 	int y;
@@ -220,7 +200,7 @@ int				cast_ray(t_vars *vars)
 	num_wall = 0;
 	start = vars->POV - M_PI / 6;
 	end = vars->POV + M_PI / 6;
-	while (start <= end)
+	while (start <= end && num_wall < vars->s_width)
 	{   
 		current_len = 0;
 		if (ft_look_up(start) == 0)

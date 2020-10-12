@@ -1,4 +1,4 @@
-R 1400 900
+R 1600 900
 NO ./textures/wstone.xpm
 SO ./textures/woodwall.xpm
 WE ./textures/wstone.xpm

@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 23:35:22 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/12 18:11:48 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/12 20:09:24 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,14 @@ int     start(t_params *params, t_txtr *textures, int screen)
     /*
     * Инициализация переменных, minilibx
     */
+    int max_width;
+    int max_height;
+   
+    
     vars.mlx = mlx_init();
-    vars.s_width = params->resolution[0];
-    vars.s_height = params->resolution[1];
+    mlx_get_screen_size(vars.mlx, &max_width, &max_height);
+    vars.s_width = params->resolution[0] >= max_width ? max_width : params->resolution[0];
+    vars.s_height = params->resolution[1] >= max_height ? max_height : params->resolution[1];
     vars.len_x = params->len_x;
     vars.len_y = params->len_y;
     vars.ceilling_color = params->ceilling_color;
@@ -33,10 +38,6 @@ int     start(t_params *params, t_txtr *textures, int screen)
     vars.textur.n_img.img = mlx_xpm_file_to_image(vars.mlx, textures->no_texture, &vars.textur.n_img.img_width, &vars.textur.n_img.img_height);
     vars.textur.n_img.addr = mlx_get_data_addr(vars.textur.n_img.img, &vars.textur.n_img.bits_per_pixel, &vars.textur.n_img.line_length, &vars.textur.n_img.endian);
     
-    int i;
-    int j;
-    mlx_get_screen_size(vars.mlx, &i, &j);
-    printf("%d, %d", i, j);
     //vars.textur.s_img.img = mlx_xpm_file_to_image(vars.mlx, textures->so_texture, &vars.textur.s_img.img_width, &vars.textur.s_img.img_height);
     //vars.textur.w_img.img = mlx_xpm_file_to_image(vars.mlx, textures->we_texture, &vars.textur.w_img.img_width, &vars.textur.w_img.img_height);
     //vars.textur.e_img.img = mlx_xpm_file_to_image(vars.mlx, textures->ea_texture, &vars.textur.e_img.img_width, &vars.textur.e_img.img_height);
