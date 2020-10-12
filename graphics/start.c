@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 23:35:22 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/11 04:29:27 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/12 18:11:48 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,19 @@ int     start(t_params *params, t_txtr *textures, int screen)
     vars.s_height = params->resolution[1];
     vars.len_x = params->len_x;
     vars.len_y = params->len_y;
+    vars.ceilling_color = params->ceilling_color;
+    vars.floor_color = params->floor_color;
     vars.map = params->map;
     vars.win_mlx = mlx_new_window(vars.mlx, vars.s_width, vars.s_height, "Cub3D");
     vars.img.img = mlx_new_image(vars.mlx, vars.s_width, vars.s_width);
     vars.img.addr = mlx_get_data_addr(vars.img.img, &vars.img.bits_per_pixel, &vars.img.line_length, &vars.img.endian);
     vars.textur.n_img.img = mlx_xpm_file_to_image(vars.mlx, textures->no_texture, &vars.textur.n_img.img_width, &vars.textur.n_img.img_height);
     vars.textur.n_img.addr = mlx_get_data_addr(vars.textur.n_img.img, &vars.textur.n_img.bits_per_pixel, &vars.textur.n_img.line_length, &vars.textur.n_img.endian);
+    
+    int i;
+    int j;
+    mlx_get_screen_size(vars.mlx, &i, &j);
+    printf("%d, %d", i, j);
     //vars.textur.s_img.img = mlx_xpm_file_to_image(vars.mlx, textures->so_texture, &vars.textur.s_img.img_width, &vars.textur.s_img.img_height);
     //vars.textur.w_img.img = mlx_xpm_file_to_image(vars.mlx, textures->we_texture, &vars.textur.w_img.img_width, &vars.textur.w_img.img_height);
     //vars.textur.e_img.img = mlx_xpm_file_to_image(vars.mlx, textures->ea_texture, &vars.textur.e_img.img_width, &vars.textur.e_img.img_height);

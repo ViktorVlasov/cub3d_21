@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 23:35:31 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/11 22:06:04 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/10/12 17:46:09 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,9 @@ typedef struct  s_vars {
 
     double      offset_x_hor;
     double      offset_y_vert;
+    
+    int    		floor_color;
+	int    		ceilling_color;
 }               t_vars;
 
 int	        get_next_line(int fd, char **line);

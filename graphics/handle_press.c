@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_press.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/08 00:27:54 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/11 22:57:11 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/10/12 18:24:15 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ int events(int keycode, t_vars *vars)
 	int i;
 	int j;
 	
-	change_x = 20 * cos(vars->POV);
-	change_y = 20 * sin(vars->POV);
+	change_x = 10 * cos(vars->POV);
+	change_y = 10 * sin(vars->POV);
 	if (keycode == ESC_KEY)
 		ft_close(vars);
 	if (keycode == W_KEY)

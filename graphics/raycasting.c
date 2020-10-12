@@ -148,35 +148,55 @@ int color_by_y(t_vars *vars, int x)
 	return (color);
 }
 
+void paint_ceiling(t_vars *vars, int top_pos_of_wall, int num_wall)
+{
+	int y;
+
+	y = 0;
+	while (y < top_pos_of_wall)
+	{
+		my_mlx_pixel_put(&(vars->img), num_wall, y, vars->ceilling_color);
+		y++;
+	}
+}
+
+void paint_floor(t_vars *vars, int bot_pos_of_wall, int num_wall)
+{
+	while (bot_pos_of_wall < vars->s_height)
+	{
+		my_mlx_pixel_put(&(vars->img), num_wall, bot_pos_of_wall, vars->floor_color);
+		bot_pos_of_wall++;
+	}
+}
+
 int create_walls(t_vars *vars, double current_len, int num_wall)
 {
 	int dist_from_player;
 	int wall_height;
 	int top_position_of_wall;
 	int cur_color;
-	int iterator;
 	double coef;
 	int y_pixel;
-	int top_pos;
+	int begining_of_wall;
 	
 	dist_from_player = vars->s_width / 2 / tan(M_PI / 6);
 	wall_height = 64 / current_len * dist_from_player;
 	wall_height = (wall_height % 2 == 0) ? wall_height : wall_height + 1;
 	top_position_of_wall = ((vars->s_height - wall_height) / 2) < 0 ? 0 : (vars->s_height - wall_height) / 2;
 	
-	iterator = top_position_of_wall;
 	coef = 64.0 / (wall_height);
-	top_pos = top_position_of_wall;
+	begining_of_wall = top_position_of_wall;
 	if (top_position_of_wall == 0)
 	{
-		top_pos = (vars->s_height - wall_height) / 2;
+		begining_of_wall = (vars->s_height - wall_height) / 2;
 		wall_height = vars->s_height;
 	}
+
+	paint_ceiling(vars, top_position_of_wall, num_wall);
+	paint_floor(vars, top_position_of_wall + wall_height, num_wall);
 	while (wall_height > 0)
 	{
-		// if (num_wall >= vars->s_width)
-		// 	num_wall = 0;    Падало на маке в школе?????
-		y_pixel = (iterator - top_pos) * coef;
+		y_pixel = (top_position_of_wall - begining_of_wall) * coef;
 		if (vars->offset_x_hor != -1)
 			cur_color = my_mlx_pixel_get_color(&vars->textur.n_img, (int)vars->offset_x_hor % 64, y_pixel);
 		else
@@ -184,8 +204,6 @@ int create_walls(t_vars *vars, double current_len, int num_wall)
 		my_mlx_pixel_put(&(vars->img), num_wall, top_position_of_wall, cur_color);
 		top_position_of_wall++;
 		wall_height--;
-		iterator++;
-		// printf("%f %f\n", vars->offset_x_hor, vars->offset_y_vert);
 	}
 	return 0;
 }
