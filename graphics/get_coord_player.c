@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_coord_player.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
+/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/08 01:18:00 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/12 22:53:39 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/10/14 01:22:09 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void get_pov(char *direction, double *pov)
 		*pov = 0;
 }
 
-int	get_coordinates(t_vars *vars)
+int			get_coordinates(t_vars *vars)
 {
 	int i;
 	int j;
@@ -51,14 +51,12 @@ int	get_coordinates(t_vars *vars)
 	return (0);
 }
 
-t_sprite *get_sprite_cord(t_vars *vars)
+void	ft_count_sprites(t_vars *vars)
 {
-	t_sprite *sprites;
 	int i;
 	int j;
-	int counter;
 
-	counter = 0;
+	vars->sprites_amount = 0;
 	i = 0;
 	j = 0;
 	while (vars->map[i] != NULL)
@@ -67,28 +65,34 @@ t_sprite *get_sprite_cord(t_vars *vars)
 		while (vars->map[i][j])
 		{
 			if (vars->map[i][j] == '2')
-				counter++;
+				vars->sprites_amount++;
 			j++;
 		}
 		i++;
 	}
-	sprites = (t_sprite *)malloc(sizeof(t_sprite) * counter);
+}
+
+void	get_sprite_cord(t_vars *vars)
+{
+	int x;
+	int i;
+	int j;
+
 	i = 0;
-	counter = 0;
-	while (vars->map[i] != NULL)
+	x = 0;
+	while (vars->map[i] != NULL || (x < vars->sprites_amount))
 	{
 		j = 0;
 		while (vars->map[i][j])
 		{
 			if (vars->map[i][j] == '2')
 				{
-					sprites[counter].sprite_x = j * BLOCK_SIZE + BLOCK_SIZE / 2;
-					sprites[counter].sprite_y = i * BLOCK_SIZE + BLOCK_SIZE / 2;  
-					counter++;
+					vars->sprites[x]->sprite_x = j * BLOCK_SIZE  + BLOCK_SIZE / 2;
+					vars->sprites[x]->sprite_y = i * BLOCK_SIZE + BLOCK_SIZE / 2;
+					x++;
 				}
 			j++;
 		}
 		i++;
 	}
-	return (sprites);
 }

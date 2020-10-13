@@ -166,39 +166,39 @@ void get_vert_texture(t_vars *vars, t_data *current_texture)
 		*current_texture = vars->textur.w_img;
 }
 
-void print_sprite(t_vars *vars)
-{
-	double	sprite_dir;
-	double	sprite_dist;
-	double	sprite_size;
-	int		x_offset;
-	int		y_offset;
-	int		h_offset;
-	int		v_offset;
+// void print_sprite(t_vars *vars)
+// {
+// 	double	sprite_dir;
+// 	double	sprite_dist;
+// 	double	sprite_size;
+// 	int		x_offset;
+// 	int		y_offset;
+// 	int		h_offset;
+// 	int		v_offset;
 
-	sprite_dir = atan2(vars->sprites[0].sprite_y - vars->Py, vars->sprites[0].sprite_x - vars->Px);
-	while (sprite_dir - vars->current_ray >  M_PI) 
-		sprite_dir -= 2 * M_PI; 
-    while (sprite_dir - vars->current_ray <  -M_PI)
-		sprite_dir += 2 * M_PI;
-	sprite_dist = sqrt(pow(vars->Px - vars->sprites[0].sprite_x, 2) + pow(vars->Py - vars->sprites[0].sprite_y, 2));
-	sprite_size = ((vars->s_height / sprite_dist) > 2000) ? 2000 : vars->s_height / sprite_dist;
+// 	sprite_dir = atan2(vars->sprites[0].sprite_y - vars->Py, vars->sprites[0].sprite_x - vars->Px);
+// 	while (sprite_dir - vars->current_ray >  M_PI) 
+// 		sprite_dir -= 2 * M_PI; 
+//     while (sprite_dir - vars->current_ray <  -M_PI)
+// 		sprite_dir += 2 * M_PI;
+// 	sprite_dist = sqrt(pow(vars->Px - vars->sprites[0].sprite_x, 2) + pow(vars->Py - vars->sprites[0].sprite_y, 2));
+// 	sprite_size = ((vars->s_height / sprite_dist) > 2000) ? 2000 : vars->s_height / sprite_dist;
 	
-	h_offset = (sprite_dir - vars->current_ray) * vars->s_width / (FOV) + vars->s_width / 2 - sprite_size / 2;
-	v_offset = vars->s_height / 2 - sprite_size / 2;
-	// x_offset = (sprite_dir - vars->current_ray) * vars->s_width / (FOV) + vars->s_width / 2 - sprite_size / 2;
-	// y_offset = vars->s_height / 2 - sprite_size / 2;
+// 	h_offset = (sprite_dir - vars->current_ray) * vars->s_width / (FOV) + vars->s_width / 2 - sprite_size / 2;
+// 	v_offset = vars->s_height / 2 - sprite_size / 2;
+// 	// x_offset = (sprite_dir - vars->current_ray) * vars->s_width / (FOV) + vars->s_width / 2 - sprite_size / 2;
+// 	// y_offset = vars->s_height / 2 - sprite_size / 2;
 
-	for (size_t i=0; i<sprite_size; i++) {
-        if (h_offset+(int)i<0 || h_offset+i>=vars->s_width)
-			continue;
-        for (size_t j=0; j<sprite_size; j++) {
-            if (v_offset+(int)j<0 || v_offset+j>=vars->s_height)
-				continue;
-			my_mlx_pixel_put(&(vars->img), vars->s_width + h_offset + i, v_offset + j, GREEN);
-        }
-    }
-}
+// 	for (size_t i=0; i<sprite_size; i++) {
+//         if (h_offset+(int)i<0 || h_offset+i>=vars->s_width)
+// 			continue;
+//         for (size_t j=0; j<sprite_size; j++) {
+//             if (v_offset+(int)j<0 || v_offset+j>=vars->s_height)
+// 				continue;
+// 			my_mlx_pixel_put(&(vars->img), vars->s_width + h_offset + i, v_offset + j, GREEN);
+//         }
+//     }
+// }
 
 int create_walls(t_vars *vars, double current_len, int num_wall)
 {
@@ -243,8 +243,30 @@ int create_walls(t_vars *vars, double current_len, int num_wall)
 		top_position_of_wall++;
 		wall_height--;
 	}
-	print_sprite(vars);
 	return 0;
+}
+
+int get_len_ray(t_vars *vars, double ray)
+{
+	double		vert_len;
+	double		horiz_len;
+	double current_len;
+
+	current_len = 0;
+	if (ft_look_up(ray) == 0)
+			current_len = vertical_ray(vars, ray);
+	else if (ft_look_right(ray) == 0)
+		current_len = horizontal_ray(vars, ray);
+	else 
+	{
+		vert_len = vertical_ray(vars, ray);
+		horiz_len = horizontal_ray(vars, ray);
+		vert_len = (vert_len < 0) ? horiz_len : vert_len;
+		horiz_len = (horiz_len < 0) ? vert_len : horiz_len;
+		current_len = vert_len > horiz_len ? horiz_len : vert_len;
+		current_len == vert_len ? (vars->offset_x_hor = -1) : (vars->offset_y_vert = -1);
+	}
+	return (current_len);
 }
 
 int				cast_ray(t_vars *vars)
@@ -254,28 +276,12 @@ int				cast_ray(t_vars *vars)
 	double		horiz_len;
 	double		current_len;
 	int			num_wall;
-	double		end;
 	
 	num_wall = 0;
 	start = vars->POV + M_PI / 6;
-	end = vars->POV - M_PI / 6;
-	
-	while (start > end && num_wall < vars->s_width)
+	while (start > vars->POV - M_PI / 6 && num_wall < vars->s_width)
 	{   
-		current_len = 0;
-		if (ft_look_up(start) == 0)
-			current_len = vertical_ray(vars, start);
-		else if (ft_look_right(start) == 0)
-			current_len = horizontal_ray(vars, start);
-		else 
-		{
-			vert_len = vertical_ray(vars, start);
-			horiz_len = horizontal_ray(vars, start);
-			vert_len = (vert_len < 0) ? horiz_len : vert_len;
-			horiz_len = (horiz_len < 0) ? vert_len : horiz_len;
-			current_len = vert_len > horiz_len ? horiz_len : vert_len;
-			current_len == vert_len ? (vars->offset_x_hor = -1) : (vars->offset_y_vert = -1);
-		}
+		current_len = get_len_ray(vars, start);
 		// print_ray(&vars->img, vars->Px, vars->Py, start, cos(vars->POV - start) * current_len);
 		vars->current_ray = make_angle(start);
 		create_walls(vars, cos(vars->POV - start) * current_len, num_wall);

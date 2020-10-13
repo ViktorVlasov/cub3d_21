@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 23:35:31 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/13 23:38:19 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/14 01:35:08 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,10 @@ typedef struct  s_images
 
 typedef struct  s_sprite
 {
-    int         sprite_x;
-    int         sprite_y;
+    double         sprite_x;
+    double         sprite_y;
+    double         sprite_dist;
+	t_data         *img_sprite;
 }               t_sprite;
 
 typedef struct  s_vars {
@@ -115,9 +117,10 @@ typedef struct  s_vars {
     double      offset_x_hor;
     double      offset_y_vert;
     
+    t_sprite    **sprites;
     int    		floor_color;
 	int    		ceilling_color;
-    t_sprite    *sprites;
+    int         sprites_amount;
 }               t_vars;
 
 int	        get_next_line(int fd, char **line);
@@ -141,7 +144,10 @@ int		    ft_choice(char c, char *str);
 int		    ft_choice_mass(char **map, char *set);
 void        free_all(char *line, t_list *head);
 int		    ft_full_map(char **map);
-t_sprite    *get_sprite_cord(t_vars *vars);
+
+void        get_sprite_cord(t_vars *vars);
+void	    ft_count_sprites(t_vars *vars);
+int			ft_error(int flag);
 
 /* Raycasting */
 
