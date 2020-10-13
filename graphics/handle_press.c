@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/08 00:27:54 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/12 20:09:20 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/14 00:33:06 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int events(int keycode, t_vars *vars)
 	}
 	change_y = 5 * sin(M_PI_2 - vars->POV);
 	change_x = 5 * cos(M_PI_2 - vars->POV);
-	if (keycode == D_KEY)
+	if (keycode == A_KEY)
 	{
 		if (vars->map[(int)((vars->Py - change_y) / 64)][(int)((vars->Px - change_x) / 64)] != '1')
 		{
@@ -56,7 +56,7 @@ int events(int keycode, t_vars *vars)
 			vars->Py -= change_y;
 		}
 	}
-	if (keycode == A_KEY)
+	if (keycode == D_KEY)
 	{
 		if (vars->map[(int)((vars->Py + change_y) / 64)][(int)((vars->Px + change_x) / 64)] != '1')
 		{
@@ -64,14 +64,14 @@ int events(int keycode, t_vars *vars)
 			vars->Py += change_y;
 		}
 	}
-    if (keycode == RIGHT_KEY)
+    if (keycode == LEFT_KEY)
 	{
         printf("%f\n", vars->POV); 
 		vars->POV += 0.0872665;
 		if (vars->POV <= 0)
 			vars->POV += 2 * M_PI;
 	}
-	if (keycode == LEFT_KEY)
+	if (keycode == RIGHT_KEY)
 	{
         printf("%f\n", vars->POV); 
 		vars->POV -= 0.0872665;
