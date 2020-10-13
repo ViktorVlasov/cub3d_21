@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
+/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 23:35:31 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/12 22:48:16 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/10/13 21:10:53 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 #define GREEN 0x0000FF00
 # define BUFFER_SIZE 4
 # define BLOCK_SIZE 64
+# define FOV (M_PI / 3) 
 
 # define ESC_KEY 53
 # define W_KEY 13
@@ -116,7 +117,7 @@ typedef struct  s_vars {
     
     int    		floor_color;
 	int    		ceilling_color;
-    
+    t_sprite    *sprites;
 }               t_vars;
 
 int	        get_next_line(int fd, char **line);

@@ -166,10 +166,39 @@ void get_vert_texture(t_vars *vars, t_data *current_texture)
 		*current_texture = vars->textur.w_img;
 }
 
-// void print_sprite(t_list *vars)
-// {
+void print_sprite(t_vars *vars)
+{
+	double	sprite_dir;
+	double	sprite_dist;
+	double	sprite_size;
+	int		x_offset;
+	int		y_offset;
+	int		h_offset;
+	int		v_offset;
 
-// }
+	sprite_dir = atan2(vars->sprites[0].sprite_y - vars->Py, vars->sprites[0].sprite_x - vars->Px);
+	while (sprite_dir - vars->current_ray >  M_PI) 
+		sprite_dir -= 2 * M_PI; 
+    while (sprite_dir - vars->current_ray <  -M_PI)
+		sprite_dir += 2 * M_PI;
+	sprite_dist = sqrt(pow(vars->Px - vars->sprites[0].sprite_x, 2) + pow(vars->Py - vars->sprites[0].sprite_y, 2));
+	sprite_size = ((vars->s_height / sprite_dist) > 2000) ? 2000 : vars->s_height / sprite_dist;
+	
+	h_offset = (sprite_dir - vars->current_ray) * vars->s_width / (FOV) + vars->s_width / 2 - sprite_size / 2;
+	v_offset = vars->s_height / 2 - sprite_size / 2;
+	// x_offset = (sprite_dir - vars->current_ray) * vars->s_width / (FOV) + vars->s_width / 2 - sprite_size / 2;
+	// y_offset = vars->s_height / 2 - sprite_size / 2;
+
+	for (size_t i=0; i<sprite_size; i++) {
+        if (h_offset+(int)i<0 || h_offset+i>=vars->s_width)
+			continue;
+        for (size_t j=0; j<sprite_size; j++) {
+            if (v_offset+(int)j<0 || v_offset+j>=vars->s_height)
+				continue;
+			my_mlx_pixel_put(&(vars->img), vars->s_width + h_offset + i, v_offset + j, GREEN);
+        }
+    }
+}
 
 int create_walls(t_vars *vars, double current_len, int num_wall)
 {
@@ -217,7 +246,7 @@ int create_walls(t_vars *vars, double current_len, int num_wall)
 		top_position_of_wall++;
 		wall_height--;
 	}
-	// print_sprite(vars);
+	print_sprite(vars);
 	return 0;
 }
 

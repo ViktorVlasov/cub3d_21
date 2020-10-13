@@ -4,7 +4,7 @@ SO ./textures/woodwall.xpm
 WE ./textures/wstone.xpm
 EA ./textures/wall1v.xpm
 
-S ./path_to_the_sprite_texture
+S ./textures/5.xpm
 F 220,100,0
 C 110,100,208
 
