@@ -6,11 +6,51 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 23:35:22 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/13 23:38:42 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/14 00:17:44 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+static void init_vars(t_vars *vars, t_params *params)
+{
+    int max_width;
+    int max_height;
+   
+    vars->mlx = mlx_init();
+    mlx_get_screen_size(vars->mlx, &max_width, &max_height);
+
+    vars->s_width = params->resolution[0] >= max_width ? max_width : params->resolution[0];
+    vars->s_height = params->resolution[1] >= max_height ? max_height : params->resolution[1];
+    vars->len_x = params->len_x;
+    vars->len_y = params->len_y;
+    vars->ceilling_color = params->ceilling_color;
+    vars->floor_color = params->floor_color;
+    vars->map = params->map;
+
+    vars->offset_y_vert = -1;
+    vars->offset_x_hor = -1;
+}
+
+static void init_mlx_texture(t_vars *vars, t_txtr *textures)
+{
+    vars->win_mlx = mlx_new_window(vars->mlx, vars->s_width, vars->s_height, "Cub3D");
+   
+    vars->img.img = mlx_new_image(vars->mlx, vars->s_width, vars->s_height);
+    vars->img.addr = mlx_get_data_addr(vars->img.img, &vars->img.bits_per_pixel, &vars->img.line_length, &vars->img.endian);
+    
+    vars->textur.n_img.img = mlx_xpm_file_to_image(vars->mlx, textures->no_texture, &vars->textur.n_img.img_width, &vars->textur.n_img.img_height);
+    vars->textur.n_img.addr = mlx_get_data_addr(vars->textur.n_img.img, &vars->textur.n_img.bits_per_pixel, &vars->textur.n_img.line_length, &vars->textur.n_img.endian);
+    
+    vars->textur.s_img.img = mlx_xpm_file_to_image(vars->mlx, textures->so_texture, &vars->textur.s_img.img_width, &vars->textur.s_img.img_height);
+    vars->textur.s_img.addr = mlx_get_data_addr(vars->textur.s_img.img, &vars->textur.s_img.bits_per_pixel, &vars->textur.s_img.line_length, &vars->textur.s_img.endian);
+    
+    vars->textur.w_img.img = mlx_xpm_file_to_image(vars->mlx, textures->we_texture, &vars->textur.w_img.img_width, &vars->textur.w_img.img_height);
+    vars->textur.w_img.addr = mlx_get_data_addr(vars->textur.w_img.img, &vars->textur.w_img.bits_per_pixel, &vars->textur.w_img.line_length, &vars->textur.w_img.endian);
+    
+    vars->textur.e_img.img = mlx_xpm_file_to_image(vars->mlx, textures->ea_texture, &vars->textur.e_img.img_width, &vars->textur.e_img.img_height);
+    vars->textur.e_img.addr = mlx_get_data_addr(vars->textur.e_img.img, &vars->textur.e_img.bits_per_pixel, &vars->textur.e_img.line_length, &vars->textur.e_img.endian);
+}
 
 int     start(t_params *params, t_txtr *textures, int screen)
 {
@@ -20,22 +60,33 @@ int     start(t_params *params, t_txtr *textures, int screen)
     /*
     * Инициализация переменных, minilibx
     */
-    int max_width;
-    int max_height;
+
+    init_vars(&vars, params);
+
+    /*  (1)  Блок, который теперь выполняется в init_vars
+
+    // int max_width;
+    // int max_height;
    
+    // vars.mlx = mlx_init();
+    // mlx_get_screen_size(vars.mlx, &max_width, &max_height);
     
+    // vars.s_width = params->resolution[0] >= max_width ? max_width : params->resolution[0];
+    // vars.s_height = params->resolution[1] >= max_height ? max_height : params->resolution[1];
+    // vars.len_x = params->len_x;
+    // vars.len_y = params->len_y;
+    // vars.ceilling_color = params->ceilling_color;
+    // vars.floor_color = params->floor_color;
+    // vars.map = params->map;
+        
+        (1)  Конец
+    */
+
+    init_mlx_texture(&vars, textures);
+    /*  (2) Блок, который теперь выполняется в init_mlx_texture
     
-    vars.mlx = mlx_init();
-    mlx_get_screen_size(vars.mlx, &max_width, &max_height);
-    
-    vars.s_width = params->resolution[0] >= max_width ? max_width : params->resolution[0];
-    vars.s_height = params->resolution[1] >= max_height ? max_height : params->resolution[1];
-    vars.len_x = params->len_x;
-    vars.len_y = params->len_y;
-    vars.ceilling_color = params->ceilling_color;
-    vars.floor_color = params->floor_color;
-    vars.map = params->map;
     vars.win_mlx = mlx_new_window(vars.mlx, vars.s_width, vars.s_height, "Cub3D");
+   
     vars.img.img = mlx_new_image(vars.mlx, vars.s_width, vars.s_height);
     vars.img.addr = mlx_get_data_addr(vars.img.img, &vars.img.bits_per_pixel, &vars.img.line_length, &vars.img.endian);
     
@@ -51,10 +102,18 @@ int     start(t_params *params, t_txtr *textures, int screen)
     vars.textur.e_img.img = mlx_xpm_file_to_image(vars.mlx, textures->ea_texture, &vars.textur.e_img.img_width, &vars.textur.e_img.img_height);
     vars.textur.e_img.addr = mlx_get_data_addr(vars.textur.e_img.img, &vars.textur.e_img.bits_per_pixel, &vars.textur.e_img.line_length, &vars.textur.e_img.endian);
     
-    vars.offset_y_vert = -1;
-    vars.offset_x_hor = -1;
-    get_coordinates(&vars);
+        (2) Конец
+    */ 
+    
+    /* (1) Переложил в init_vars
+    
+    // vars.offset_y_vert = -1;
+    // vars.offset_x_hor = -1;
 
+    */
+
+
+    get_coordinates(&vars);
     sprites = get_sprite_cord(&vars);
     
     for (int i = 0; i < 4; i++)
