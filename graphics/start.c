@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 23:35:22 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/13 20:32:35 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/13 23:38:42 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ int     start(t_params *params, t_txtr *textures, int screen)
     
     mlx_put_image_to_window(vars.mlx, vars.win_mlx, vars.img.img, 0, 0);
 
-    
+    if (screen == 1)
+		create_bmp(&vars);
     /* 
     * Обработка нажатий клавиш.
     */

@@ -229,9 +229,6 @@ int create_walls(t_vars *vars, double current_len, int num_wall)
 	while (wall_height > 0)
 	{
 		y_pixel = (top_position_of_wall - begining_of_wall) * coef;
-
-		
-
 		if (vars->offset_x_hor != -1)
 		{
 			get_hor_texture(vars, &current_texture);

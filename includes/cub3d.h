@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 23:35:31 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/13 21:10:53 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/13 23:38:19 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,5 +155,7 @@ int	        get_coordinates(t_vars *vars);
 int         cast_ray(t_vars *vars);
 
 int         my_mlx_pixel_get_color(t_data *data, int x, int y);
+
+void	    create_bmp(t_vars *vars);
 
 #endif
