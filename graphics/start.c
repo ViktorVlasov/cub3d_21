@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 23:35:22 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/14 01:34:24 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/15 21:59:20 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,19 +57,17 @@ void	init_sprites(t_vars *vars, t_txtr *textures)
 	int i;
 
 	i = 0;
+	if (!(vars->sprites = malloc(sizeof(t_sprite) * vars->sprites_amount)))
+			ft_error(4);
 	while (i < vars->sprites_amount)
 	{
-		if (!(vars->sprites[i] = malloc(sizeof(t_sprite))))
-			ft_error(4);
-		if (!(vars->sprites[i]->img_sprite = malloc(sizeof(t_data))))
-			ft_error(4);
-		if (!(vars->sprites[i]->img_sprite->img = mlx_xpm_file_to_image(vars->mlx,
-				textures->sprite_texture, &vars->sprites[i]->img_sprite->img_width,
-				&vars->sprites[i]->img_sprite->img_height)))
+		if (!(vars->sprites[i].img_sprite.img = mlx_xpm_file_to_image(vars->mlx,
+				textures->sprite_texture, &vars->sprites[i].img_sprite.img_width,
+				&vars->sprites[i].img_sprite.img_height)))
 			ft_error(1);
-		vars->sprites[i]->img_sprite->addr = mlx_get_data_addr(
-				vars->sprites[i]->img_sprite->img, &vars->sprites[i]->img_sprite->bits_per_pixel,
-				&vars->sprites[i]->img_sprite->line_length, &vars->sprites[i]->img_sprite->endian);
+		vars->sprites[i].img_sprite.addr = mlx_get_data_addr(
+				vars->sprites[i].img_sprite.img, &vars->sprites[i].img_sprite.bits_per_pixel,
+				&vars->sprites[i].img_sprite.line_length, &vars->sprites[i].img_sprite.endian);
 		i++;
 	}
 }
@@ -88,9 +86,9 @@ int			start(t_params *params, t_txtr *textures, int screen)
 	
 	get_coordinates(&vars);
     
-    // ft_count_sprites(&vars);
-    // init_sprites(&vars, textures);
-	// get_sprite_cord(&vars);
+    ft_count_sprites(&vars);
+    init_sprites(&vars, textures);
+	get_sprite_cord(&vars);
 
     // ft_make_sprites()
 	
@@ -103,6 +101,7 @@ int			start(t_params *params, t_txtr *textures, int screen)
 	// t_draw_map(&vars.img, vars.map);
 	// my_mlx_pixel_put(&(vars.img), vars.Px, vars.Py, GREEN);
 	cast_ray(&vars);
+	print_sprite(&vars);
 	mlx_put_image_to_window(vars.mlx, vars.win_mlx, vars.img.img, 0, 0);
 	if (screen == 1)
 		create_bmp(&vars);

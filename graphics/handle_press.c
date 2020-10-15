@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/08 00:27:54 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/14 00:57:28 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/15 21:58:04 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int			events(int keycode, t_vars *vars)
 	// t_draw_map(&vars->img, vars->map);
 	// my_mlx_pixel_put(&(vars->img), vars->Px, vars->Py, GREEN); 
 	cast_ray(vars);
+	print_sprite(vars);
 	mlx_put_image_to_window(vars->mlx, vars->win_mlx, vars->img.img, 0, 0);		
 	return (0);
 }

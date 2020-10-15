@@ -21,7 +21,7 @@ void print_ray(t_data *img, int x, int y, double start, double len)
 	{
 		my_mlx_pixel_put(img, x + c * cos(start), y - c * sin(start), 0xFF9900);
 		c++;
-	}	
+	}
 }
 
 int		ft_look_up(double f)
@@ -65,21 +65,14 @@ static double horizontal_ray(t_vars *vars, double ray)
 	int map_x;
 	int map_y;
 
-	
-	cord_y = 0;
-	cord_x = 0;
-    cord_y = ((int)(vars->Py / 64)) * 64 + (ft_look_up(ray) == 1 ? -0.0001 : 64); // Была ошибка
+    cord_y = ((int)(vars->Py / 64)) * 64 + (ft_look_up(ray) == 1 ? -0.0001 : 64);
 	cord_x = vars->Px + (vars->Py - cord_y) / tan(ray);
 	ray = make_angle(ray);
 	if (ray > 0 && ray < M_PI)
-    {
         vars->Xa = 64 / tan(ray);           
-    }
-    else // ray > M_PI && ray < M_PI * 2
-    {
+    else
         vars->Xa = 64 / tan(2 * M_PI - ray);
-    }
-	vars->Ya = (ft_look_up(ray) == 1) ? -64 : 64; // Была ошибка
+	vars->Ya = (ft_look_up(ray) == 1) ? -64 : 64;
 	map_x = (int)(cord_x / 64);
 	map_y = (int)(cord_y / 64);
 	while (map_x >= 0 && map_y >= 0 && map_x < vars->len_x && map_y < vars->len_y
@@ -101,19 +94,13 @@ static double vertical_ray(t_vars *vars, double ray)
 	int map_x;
 	int map_y;
 	
-	cord_y = 0;
-	cord_x = 0;
 	cord_x = ((int)(vars->Px / 64)) * 64 + (ft_look_right(ray) == 1 ? 64 : -0.0001);
 	cord_y = vars->Py  + (vars->Px - cord_x) * tan(ray);
 	ray = make_angle(ray);
     if (ray > 3 * M_PI / 2 || ray < M_PI_2)
-    {
         vars->Ya = tan(2 * M_PI - ray) * 64;   
-    }
     else
-    {
         vars->Ya = tan(ray) * 64;    
-    }
     vars->Xa = (ft_look_right(ray) == 1) ? 64 : -64;
 	map_x = (int)(cord_x / 64);
 	map_y = (int)(cord_y / 64);
@@ -166,39 +153,41 @@ void get_vert_texture(t_vars *vars, t_data *current_texture)
 		*current_texture = vars->textur.w_img;
 }
 
-// void print_sprite(t_vars *vars)
-// {
-// 	double	sprite_dir;
-// 	double	sprite_dist;
-// 	double	sprite_size;
-// 	int		x_offset;
-// 	int		y_offset;
-// 	int		h_offset;
-// 	int		v_offset;
+void print_sprite(t_vars *vars)
+{
+	int		dist_from_player;
+	double	sprite_dir;
+	double	sprite_dist;
+	double	sprite_size;
+	// int		x_offset;
+	// int		y_offset;
+	int		h_offset;
+	int		v_offset;
 
-// 	sprite_dir = atan2(vars->sprites[0].sprite_y - vars->Py, vars->sprites[0].sprite_x - vars->Px);
-// 	while (sprite_dir - vars->current_ray >  M_PI) 
-// 		sprite_dir -= 2 * M_PI; 
-//     while (sprite_dir - vars->current_ray <  -M_PI)
-// 		sprite_dir += 2 * M_PI;
-// 	sprite_dist = sqrt(pow(vars->Px - vars->sprites[0].sprite_x, 2) + pow(vars->Py - vars->sprites[0].sprite_y, 2));
-// 	sprite_size = ((vars->s_height / sprite_dist) > 2000) ? 2000 : vars->s_height / sprite_dist;
+	dist_from_player = vars->s_width / 2 / tan(M_PI / 6);
+	sprite_dir = atan2(vars->sprites[0].sprite_y - vars->Py, vars->sprites[0].sprite_x - vars->Px);
+	while (sprite_dir - vars->POV >  M_PI) 
+		sprite_dir -= 2 * M_PI; 
+    while (sprite_dir - vars->POV <  -M_PI)
+		sprite_dir += 2 * M_PI;
+	sprite_dist = sqrt(pow(vars->Px - vars->sprites[0].sprite_x, 2) + pow(vars->Py - vars->sprites[0].sprite_y, 2));
+	sprite_size = ((vars->s_height / sprite_dist * 5) > 2000) ? 2000 : vars->s_height / sprite_dist * 5;
 	
-// 	h_offset = (sprite_dir - vars->current_ray) * vars->s_width / (FOV) + vars->s_width / 2 - sprite_size / 2;
-// 	v_offset = vars->s_height / 2 - sprite_size / 2;
-// 	// x_offset = (sprite_dir - vars->current_ray) * vars->s_width / (FOV) + vars->s_width / 2 - sprite_size / 2;
-// 	// y_offset = vars->s_height / 2 - sprite_size / 2;
+	h_offset = (sprite_dir - vars->POV) * vars->s_width / (FOV) + (vars->s_width / 2 - sprite_size / 2);
+	v_offset = vars->s_height / 2 - sprite_size / 2;
+	// x_offset = (sprite_dir - vars->current_ray) * vars->s_width / (FOV) + vars->s_width / 2 - sprite_size / 2;
+	// y_offset = vars->s_height / 2 - sprite_size / 2;
 
-// 	for (size_t i=0; i<sprite_size; i++) {
-//         if (h_offset+(int)i<0 || h_offset+i>=vars->s_width)
-// 			continue;
-//         for (size_t j=0; j<sprite_size; j++) {
-//             if (v_offset+(int)j<0 || v_offset+j>=vars->s_height)
-// 				continue;
-// 			my_mlx_pixel_put(&(vars->img), vars->s_width + h_offset + i, v_offset + j, GREEN);
-//         }
-//     }
-// }
+	for (size_t i=0; i<sprite_size; i++) {
+        if (h_offset+(int)i < 0 || h_offset+i >= vars->s_width)
+			continue;
+        for (size_t j=0; j<sprite_size; j++) {
+            if (v_offset+(int)j < 0 || v_offset+j >= vars->s_height)
+				continue;
+			my_mlx_pixel_put(&(vars->img), h_offset + i, v_offset + j, RED);
+        }
+    }
+}
 
 int create_walls(t_vars *vars, double current_len, int num_wall)
 {

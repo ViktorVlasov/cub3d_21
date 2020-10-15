@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/08 01:18:00 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/14 01:22:09 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/15 21:21:41 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,8 @@ void	get_sprite_cord(t_vars *vars)
 		{
 			if (vars->map[i][j] == '2')
 				{
-					vars->sprites[x]->sprite_x = j * BLOCK_SIZE  + BLOCK_SIZE / 2;
-					vars->sprites[x]->sprite_y = i * BLOCK_SIZE + BLOCK_SIZE / 2;
+					vars->sprites[x].sprite_x = j * BLOCK_SIZE  + BLOCK_SIZE / 2;
+					vars->sprites[x].sprite_y = i * BLOCK_SIZE + BLOCK_SIZE / 2;
 					x++;
 				}
 			j++;
