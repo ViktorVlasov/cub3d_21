@@ -165,7 +165,7 @@ void print_sprite(t_vars *vars)
 	int		v_offset;
 
 	dist_from_player = vars->s_width / 2 / tan(M_PI / 6);
-	sprite_dir = atan2(vars->sprites[0].sprite_y - vars->Py, vars->sprites[0].sprite_x - vars->Px);
+	sprite_dir = atan2(-vars->sprites[0].sprite_y + vars->Py, vars->sprites[0].sprite_x - vars->Px);
 	while (sprite_dir - vars->POV >  M_PI) 
 		sprite_dir -= 2 * M_PI; 
     while (sprite_dir - vars->POV <  -M_PI)
@@ -173,7 +173,7 @@ void print_sprite(t_vars *vars)
 	sprite_dist = sqrt(pow(vars->Px - vars->sprites[0].sprite_x, 2) + pow(vars->Py - vars->sprites[0].sprite_y, 2));
 	sprite_size = ((vars->s_height / sprite_dist * 5) > 2000) ? 2000 : vars->s_height / sprite_dist * 5;
 	
-	h_offset = (sprite_dir - vars->POV) * vars->s_width / (FOV) + (vars->s_width / 2 - sprite_size / 2);
+	h_offset = -(sprite_dir - vars->POV) * vars->s_width / (FOV) + (vars->s_width / 2 - sprite_size / 2);
 	v_offset = vars->s_height / 2 - sprite_size / 2;
 	// x_offset = (sprite_dir - vars->current_ray) * vars->s_width / (FOV) + vars->s_width / 2 - sprite_size / 2;
 	// y_offset = vars->s_height / 2 - sprite_size / 2;
@@ -267,14 +267,20 @@ int				cast_ray(t_vars *vars)
 	int			num_wall;
 	
 	num_wall = 0;
-	start = vars->POV + M_PI / 6;
-	while (start > vars->POV - M_PI / 6 && num_wall < vars->s_width)
+	// start = vars->POV + M_PI / 6;
+
+	double		end;
+	start = vars->POV - M_PI / 6;
+	end = vars->POV + M_PI / 6;
+	// while (start > vars->POV - M_PI / 6 && num_wall < vars->s_width)
+	while (start <= end)
 	{   
 		current_len = get_len_ray(vars, start);
 		// print_ray(&vars->img, vars->Px, vars->Py, start, cos(vars->POV - start) * current_len);
 		vars->current_ray = make_angle(start);
 		create_walls(vars, cos(vars->POV - start) * current_len, num_wall);
-		start -= ((M_PI / 3) / vars->s_width);
+		// start -= ((M_PI / 3) / vars->s_width);
+		start += ((M_PI / 3) / vars->s_width);
 		num_wall++;
 	}
     return (0);
