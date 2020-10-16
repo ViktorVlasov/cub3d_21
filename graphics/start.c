@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 23:35:22 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/16 20:38:24 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/16 22:26:34 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,46 @@ void	init_sprites(t_vars *vars, t_txtr *textures)
 	}
 }
 
+// for j = 2 to A.length do 
+//     key = A[j]
+//     i = j-1
+//     while (i > 0 and A[i] > key) do 
+//         A[i + 1] = A[i]
+//         i = i - 1
+//     end while
+//     A[i+1] = key
+// end for[5]
+
+void sort_sprites(t_vars *vars)
+{
+	int i = 1;
+	int j = 0;
+	double key_dist;
+	double key_x;
+	double key_y;
+
+	if (vars->sprites_amount > 2)
+	{
+		while (i < vars->sprites_amount)
+		{
+			key_dist = vars->sprites[i].sprite_dist;
+			key_x = vars->sprites[i].sprite_x;
+			key_y = vars->sprites[i].sprite_y;
+			j = i - 1;
+			while (j >= 0 && vars->sprites[j].sprite_dist < key_dist)
+			{
+				vars->sprites[j + 1].sprite_x = vars->sprites[j].sprite_x;
+				vars->sprites[j + 1].sprite_y = vars->sprites[j].sprite_y;
+				vars->sprites[j + 1].sprite_dist = vars->sprites[j].sprite_dist;
+				j--;
+			}
+			vars->sprites[j + 1].sprite_dist = key_dist;
+			vars->sprites[j + 1].sprite_x = key_x;
+			vars->sprites[j + 1].sprite_y = key_y;
+			i++;
+		}
+	}
+}
 
 int			start(t_params *params, t_txtr *textures, int screen)
 {
@@ -101,6 +141,7 @@ int			start(t_params *params, t_txtr *textures, int screen)
 	// t_draw_map(&vars.img, vars.map);
 	// my_mlx_pixel_put(&(vars.img), vars.Px, vars.Py, GREEN);
 	cast_ray(&vars);
+	sort_sprites(&vars);
 	int i = -1;
 	while (++i < vars.sprites_amount)
 		print_sprite(&vars, i);

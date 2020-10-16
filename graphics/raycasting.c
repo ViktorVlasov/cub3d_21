@@ -155,7 +155,6 @@ void get_vert_texture(t_vars *vars, t_data *current_texture)
 
 void print_sprite(t_vars *vars, int num_sprite)
 {
-	int		dist_from_player;
 	double	sprite_dir;
 	double	sprite_dist;
 	double	sprite_size;
@@ -164,7 +163,6 @@ void print_sprite(t_vars *vars, int num_sprite)
 	int		h_offset;
 	int		v_offset;
 
-	dist_from_player = vars->s_width / 2 / tan(M_PI / 6);
 	sprite_dir = atan2(-vars->sprites[num_sprite].sprite_y + vars->Py, vars->sprites[num_sprite].sprite_x - vars->Px);
 	while (sprite_dir - vars->POV >  M_PI) 
 		sprite_dir -= 2 * M_PI; 
@@ -177,24 +175,12 @@ void print_sprite(t_vars *vars, int num_sprite)
 
 	h_offset = (vars->POV - sprite_dir) * vars->s_width / (FOV) + (vars->s_width / 2 - sprite_size / 2);
 	v_offset = vars->s_height / 2 - sprite_size / 2 + 32;
-	// x_offset = (sprite_dir - vars->current_ray) * vars->s_width / (FOV) + vars->s_width / 2 - sprite_size / 2;
-	// y_offset = vars->s_height / 2 - sprite_size / 2;
-
-	// for (size_t i=0; i<sprite_size; i++) {
-    //     if (h_offset+(int)i < 0 || h_offset+i >= vars->s_width)
-	// 		continue;
-    //     for (size_t j=0; j<sprite_size; j++) {
-    //         if (v_offset+(int)j < 0 || v_offset+j >= vars->s_height)
-	// 			continue;
-	// 		my_mlx_pixel_put(&(vars->img), h_offset + i, v_offset + j, RED);
-    //     }
-    // }
 
 	int i = 0;
 	int j = 0;
 	int cur_color = 0;
-	if (fabs(vars->POV - sprite_dir) <= M_PI / 6) // + 0.1 потому что округление:(
-	{
+	// if (fabs(vars->POV - sprite_dir) <= M_PI / 6) // + 0.1 потому что округление:(
+	// {
 		while (i < sprite_size)
 		{
 			if (h_offset + i >= 0 && h_offset + i < vars->s_width && sprite_dist < vars->ray_length[h_offset + i])
@@ -212,8 +198,7 @@ void print_sprite(t_vars *vars, int num_sprite)
 			}
 			i++;
 		}
-	}
-	
+	// }
 }
 
 int create_walls(t_vars *vars, double current_len, int num_wall)
@@ -301,7 +286,7 @@ int				cast_ray(t_vars *vars)
 		current_len = get_len_ray(vars, start);
 		// print_ray(&vars->img, vars->Px, vars->Py, start, cos(vars->POV - start) * current_len);
 		vars->current_ray = make_angle(start);
-		vars->ray_length[num_wall] = current_len * cos(vars->POV - start); // в массив всех длин записываем очерендую длину луча. Индекс массива = номер луча.
+		vars->ray_length[num_wall] = current_len; // в массив всех длин записываем очерендую длину луча. Индекс массива = номер луча.
 		create_walls(vars, cos(vars->POV - start) * current_len, num_wall);
 		start -= ((M_PI / 3) / vars->s_width);
 		num_wall++;
