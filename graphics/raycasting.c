@@ -267,20 +267,20 @@ int				cast_ray(t_vars *vars)
 	int			num_wall;
 	
 	num_wall = 0;
-	// start = vars->POV + M_PI / 6;
+	start = vars->POV + M_PI / 6;
 
-	double		end;
-	start = vars->POV - M_PI / 6;
-	end = vars->POV + M_PI / 6;
-	// while (start > vars->POV - M_PI / 6 && num_wall < vars->s_width)
-	while (start <= end)
+	//double		end;
+	//start = vars->POV - M_PI / 6;
+	//end = vars->POV + M_PI / 6;
+	//while (start <= end)
+	while (start > vars->POV - M_PI / 6 && num_wall < vars->s_width)
 	{   
 		current_len = get_len_ray(vars, start);
 		// print_ray(&vars->img, vars->Px, vars->Py, start, cos(vars->POV - start) * current_len);
 		vars->current_ray = make_angle(start);
 		create_walls(vars, cos(vars->POV - start) * current_len, num_wall);
-		// start -= ((M_PI / 3) / vars->s_width);
-		start += ((M_PI / 3) / vars->s_width);
+		start -= ((M_PI / 3) / vars->s_width);
+		//start += ((M_PI / 3) / vars->s_width);
 		num_wall++;
 	}
     return (0);
