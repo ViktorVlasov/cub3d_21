@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/08 00:27:54 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/16 12:32:48 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/16 20:40:45 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,43 +20,51 @@ int			ft_close(t_vars *vars)
 
 static void	ft_ws_key(int keycode, t_vars *vars)
 {
-	int change_x;
-	int change_y;
+	double change_x;
+	double change_y;
 
-	change_x = 20 * cos(vars->POV);
-	change_y = 20 * sin(vars->POV);
+	change_x = 10 * cos(vars->POV);
+	change_y = 10 * sin(vars->POV);
 	if (keycode == W_KEY)
-		if (vars->map[(int)((vars->Py - change_y) / 64)][(int)((vars->Px + change_x) / 64)] != '1')
+		if (vars->map[(int)((vars->Py - change_y) / 64)][(int)((vars->Px + change_x) / 64)] != '1' &&
+			vars->map[(int)((vars->Py - change_y) / 64)][(int)(vars->Px / 64)] != '1' && 
+			vars->map[(int)(vars->Py / 64)][(int)((vars->Px + change_x) / 64)] != '1')
 		{
-			vars->Px += change_x;
-			vars->Py -= change_y;
+			vars->Px += (int)change_x;
+			vars->Py -= (int)change_y;
 		}
 	if (keycode == S_KEY)
-		if (vars->map[(int)((vars->Py + change_y) / 64)][(int)((vars->Px - change_x) / 64)] != '1')
+		if (vars->map[(int)((vars->Py + change_y) / 64)][(int)((vars->Px - change_x) / 64)] != '1' &&
+			vars->map[(int)((vars->Py + change_y) / 64)][(int)(vars->Px / 64)] != '1' && 
+			vars->map[(int)(vars->Py / 64)][(int)((vars->Px - change_x) / 64)] != '1')
 		{
-			vars->Px -= change_x;
-			vars->Py += change_y;
+			vars->Px -= (int)change_x;
+			vars->Py += (int)change_y;
 		}
 }
 
 static void	ft_ad_key(int keycode, t_vars *vars)
 {
-	int change_x;
-	int change_y;
+	double change_x;
+	double change_y;
 
-	change_x = 5 * cos(M_PI_2 - vars->POV);
-	change_y = 5 * sin(M_PI_2 - vars->POV);
+	change_x = 10 * cos(M_PI_2 - vars->POV);
+	change_y = 10 * sin(M_PI_2 - vars->POV);
 	if (keycode == A_KEY)
-		if (vars->map[(int)((vars->Py - change_y) / 64)][(int)((vars->Px - change_x) / 64)] != '1')
+		if (vars->map[(int)((vars->Py - change_y) / 64)][(int)((vars->Px - change_x) / 64)] != '1' &&
+			vars->map[(int)((vars->Py - change_y) / 64)][(int)(vars->Px / 64)] != '1' && 
+			vars->map[(int)(vars->Py / 64)][(int)((vars->Px - change_x) / 64)] != '1')
 		{
-			vars->Px -= change_x;
-			vars->Py -= change_y;
+			vars->Px -= (int)change_x;
+			vars->Py -= (int)change_y;
 		}
 	if (keycode == D_KEY)
-		if (vars->map[(int)((vars->Py + change_y) / 64)][(int)((vars->Px + change_x) / 64)] != '1')
+		if (vars->map[(int)((vars->Py + change_y) / 64)][(int)((vars->Px + change_x) / 64)] != '1' &&
+			vars->map[(int)((vars->Py + change_y) / 64)][(int)(vars->Px / 64)] != '1' && 
+			vars->map[(int)(vars->Py / 64)][(int)((vars->Px + change_x) / 64)] != '1')
 		{
-			vars->Px += change_x;
-			vars->Py += change_y;
+			vars->Px += (int)change_x;
+			vars->Py += (int)change_y;
 		}
 }
 
@@ -95,7 +103,14 @@ int			events(int keycode, t_vars *vars)
 	// t_draw_map(&vars->img, vars->map);
 	// my_mlx_pixel_put(&(vars->img), vars->Px, vars->Py, GREEN); 
 	cast_ray(vars);
-	print_sprite(vars);
+
+
+	// Отредачить
+	int i = -1;
+	while (++i < vars->sprites_amount)
+		print_sprite(vars, i);
+	
+	
 	mlx_put_image_to_window(vars->mlx, vars->win_mlx, vars->img.img, 0, 0);		
 	return (0);
 }

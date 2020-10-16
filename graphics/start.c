@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 23:35:22 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/15 21:59:20 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/16 20:38:24 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,9 @@ int			start(t_params *params, t_txtr *textures, int screen)
 	// t_draw_map(&vars.img, vars.map);
 	// my_mlx_pixel_put(&(vars.img), vars.Px, vars.Py, GREEN);
 	cast_ray(&vars);
-	print_sprite(&vars);
+	int i = -1;
+	while (++i < vars.sprites_amount)
+		print_sprite(&vars, i);
 	mlx_put_image_to_window(vars.mlx, vars.win_mlx, vars.img.img, 0, 0);
 	if (screen == 1)
 		create_bmp(&vars);

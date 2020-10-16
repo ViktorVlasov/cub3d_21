@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 23:35:31 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/15 21:34:29 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/16 20:36:58 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ typedef struct  s_vars {
     int    		floor_color;
 	int    		ceilling_color;
     int         sprites_amount;
+    double         *ray_length;
 
 }               t_vars;
 
@@ -164,6 +165,6 @@ int         cast_ray(t_vars *vars);
 int         my_mlx_pixel_get_color(t_data *data, int x, int y);
 
 void	    create_bmp(t_vars *vars);
-void        print_sprite(t_vars *vars);
+void        print_sprite(t_vars *vars, int num_sprite);
 
 #endif
