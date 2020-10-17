@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 23:35:31 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/17 21:02:18 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/17 23:34:22 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ void			free_all(char *line, t_list *head);
 int				ft_full_map(char **map);
 void			get_sprite_cord(t_vars *vars);
 void			ft_count_sprites(t_vars *vars);
-int				ft_error(int flag);
+void			ft_error(int flag);
 int				start(t_params *params, t_txtr *textures, int screen);
 void			print_ray(t_data *img, int x, int y, double start, double len);
 int				ft_look_up(double f);
@@ -162,5 +162,7 @@ int				my_mlx_pixel_get_color(t_data *data, int x, int y);
 void			create_bmp(t_vars *vars);
 void			get_sprite(t_vars *vars, int num_sprite);
 void			sort_sprites(t_vars *vars);
+int				get_cur_color(t_vars *vars, t_data *current_texture, int y_pixel);
+void			ft_end_game(t_vars *vars);
 
 #endif

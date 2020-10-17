@@ -6,7 +6,7 @@
 #    By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/15 11:26:54 by efumiko           #+#    #+#              #
-#    Updated: 2020/10/17 20:28:30 by efumiko          ###   ########.fr        #
+#    Updated: 2020/10/17 23:01:12 by efumiko          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ $(NAME):$(OBJ)
 	$(MAKE) bonus -C libft
 	cp mlx/libmlx.dylib .
 	cp libft/libft.a .
-	cc -o $(NAME) $(FLAGS) $(OBJ) -L. -lft libmlx*
+	cc -o $(NAME) $(FLAGS) $(OBJ) -L. -lft libmlx.dylib
 
 clean:
 	rm -rf $(OBJ)

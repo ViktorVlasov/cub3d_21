@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 19:14:31 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/17 19:18:54 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/17 23:37:36 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ char	**get_map(int fd, t_params *params)
 		i = 0;
 		while (map[i])
 		{
-			printf("Строка номер %d: %s\n", i, map[i]);
+			// printf("Строка номер %d: %s\n", i, map[i]);
 			i++;
 		}
 		return (map);

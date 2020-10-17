@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 23:23:18 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/17 19:26:27 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/17 23:32:00 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,11 @@ void	create_bmp(t_vars *vars)
 
 	if ((fd = open("screenshot.bmp", O_CREAT | O_TRUNC | O_WRONLY | O_APPEND,
 		0666)) == -1)
-		// вывод ошибки
+		ft_error(1);
 	size_bmp = 54 + (vars->s_width * vars->s_height * 4);
 	ft_create_bmp_head(vars, size_bmp, fd);
 	ft_create_bmp_2(vars, fd);
 	close(fd);
+	// ft_end_game(vars);
 	exit(0);
 }

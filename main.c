@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 19:47:35 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/17 19:14:04 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/17 23:39:08 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,21 +53,21 @@ int			ft_check_dotcub(char *path)
 	return (1);
 }
 
-int			ft_error(int flag)
+void		ft_error(int flag)
 {
 	if (flag == 1)
-		perror("Error file");
+		ft_putstr_fd("Error file", 1);
 	if (flag == 2)
-		perror("Error amount arguments");
+		ft_putstr_fd("Error amount arguments", 1);
 	if (flag == 3)
-		perror("Error second arguments");
+		ft_putstr_fd("Error second arguments", 1);
 	if (flag == 4)
-		perror("Error allocate memory");
+		ft_putstr_fd("Error allocate memory", 1);
 	if (flag == 5)
-		perror("Error uncorrect strings in file");
+		ft_putstr_fd("Error uncorrect strings in file", 1);
 	if (flag == 6)
-		perror("Error map format");
-	return (0);
+		ft_putstr_fd("Error map format", 1);
+	exit(0);
 }
 
 int			main(int argc, char **argv)
@@ -79,19 +79,20 @@ int			main(int argc, char **argv)
 
 	if (argc == 1 || ft_check_dotcub(argv[1])
 	|| ((fd = open(argv[1], O_RDONLY)) < 0))
-		return (ft_error(1));
+		ft_error(1);
 	if (argc > 3 || (argc == 3 && ft_strcmp(argv[2], "--save") != 0))
-		return (argc > 3 ? ft_error(2) : ft_error(3));
+		argc > 3 ? ft_error(2) : ft_error(3);
 	if (argc == 3 && ft_strcmp(argv[2], "--save") == 0)
 		screen = 1;
 	if (!(params = ft_init_param()))
-		return (ft_error(4));
+		ft_error(4);
 	if (!(textures = ft_init()))
-		return (ft_error(4));
+		ft_error(4);
 	if (parser(params, textures, fd))
-		return (ft_error(5));
+		ft_error(5);
 	if (!(params->map = get_map(fd, params)))
-		return (ft_error(6));
+		ft_error(6);
 	close(fd);
 	start(params, textures, screen);
+	// ft_free_array(&params->map);
 }

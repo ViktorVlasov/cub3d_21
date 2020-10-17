@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 23:35:22 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/17 20:29:46 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/17 23:40:22 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,18 @@ void			sort_sprites(t_vars *vars)
 		}
 }
 
+void			ft_end_game(t_vars *vars)
+{
+	int			i;
+
+	i = 0;
+	if (vars->sprites)
+		free(vars->sprites);
+	ft_free_array(&vars->map);
+	if (vars->ray_length)
+		free(vars->ray_length);
+}
+
 int				start(t_params *params, t_txtr *textures, int screen)
 {
 	t_vars		vars;
@@ -137,5 +149,6 @@ int				start(t_params *params, t_txtr *textures, int screen)
 	mlx_hook(vars.win_mlx, 17, 0, ft_close, &vars);
 	mlx_hook(vars.win_mlx, 2, 0L, events, &vars);
 	mlx_loop(vars.mlx);
+	ft_end_game(&vars);
 	return (0);
 }
