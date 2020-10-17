@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 23:35:31 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/16 20:36:58 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/17 17:09:11 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,5 +166,6 @@ int         my_mlx_pixel_get_color(t_data *data, int x, int y);
 
 void	    create_bmp(t_vars *vars);
 void        print_sprite(t_vars *vars, int num_sprite);
+void		sort_sprites(t_vars *vars);
 
 #endif

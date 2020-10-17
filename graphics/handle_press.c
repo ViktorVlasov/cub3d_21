@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_press.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/08 00:27:54 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/16 20:40:45 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/17 17:11:31 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int			events(int keycode, t_vars *vars)
 	// t_draw_map(&vars->img, vars->map);
 	// my_mlx_pixel_put(&(vars->img), vars->Px, vars->Py, GREEN); 
 	cast_ray(vars);
-
+	sort_sprites(vars);
 
 	// Отредачить
 	int i = -1;

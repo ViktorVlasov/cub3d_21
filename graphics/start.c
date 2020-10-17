@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 23:35:22 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/16 22:26:34 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/17 15:48:59 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,16 +72,6 @@ void	init_sprites(t_vars *vars, t_txtr *textures)
 	}
 }
 
-// for j = 2 to A.length do 
-//     key = A[j]
-//     i = j-1
-//     while (i > 0 and A[i] > key) do 
-//         A[i + 1] = A[i]
-//         i = i - 1
-//     end while
-//     A[i+1] = key
-// end for[5]
-
 void sort_sprites(t_vars *vars)
 {
 	int i = 1;
@@ -116,8 +106,6 @@ void sort_sprites(t_vars *vars)
 int			start(t_params *params, t_txtr *textures, int screen)
 {
 	t_vars      vars;
-	// t_sprite    *sprites;
-	
 	/*
 	* Инициализация переменных, minilibx
 	*/

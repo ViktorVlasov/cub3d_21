@@ -158,20 +158,23 @@ void print_sprite(t_vars *vars, int num_sprite)
 	double	sprite_dir;
 	double	sprite_dist;
 	double	sprite_size;
-	// int		x_offset;
-	// int		y_offset;
 	int		h_offset;
 	int		v_offset;
+	int		dist_from_player;
 
+
+	dist_from_player = vars->s_width / 2 / tan(M_PI / 6);
 	sprite_dir = atan2(-vars->sprites[num_sprite].sprite_y + vars->Py, vars->sprites[num_sprite].sprite_x - vars->Px);
 	while (sprite_dir - vars->POV >  M_PI) 
 		sprite_dir -= 2 * M_PI; 
     while (sprite_dir - vars->POV <  -M_PI)
 		sprite_dir += 2 * M_PI;
 	sprite_dist = sqrt(pow(vars->Px - vars->sprites[num_sprite].sprite_x, 2) + pow(vars->Py - vars->sprites[num_sprite].sprite_y, 2));
-	//sprite_size = ((vars->s_height / sprite_dist > 2000) ? 2000 : vars->s_height / sprite_dist;
+	vars->sprites[num_sprite].sprite_dist = sprite_dist;
+	// sprite_size = (vars->s_height / sprite_dist > 2000) ? 2000 : vars->s_height / sprite_dist;
 	
-	sprite_size = vars->s_height / sprite_dist * 64;
+	sprite_size = 64 / sprite_dist * dist_from_player;
+	// sprite_size = vars->s_height / sprite_dist * 64;
 
 	h_offset = (vars->POV - sprite_dir) * vars->s_width / (FOV) + (vars->s_width / 2 - sprite_size / 2);
 	v_offset = vars->s_height / 2 - sprite_size / 2 + 32;
@@ -179,26 +182,24 @@ void print_sprite(t_vars *vars, int num_sprite)
 	int i = 0;
 	int j = 0;
 	int cur_color = 0;
-	// if (fabs(vars->POV - sprite_dir) <= M_PI / 6) // + 0.1 потому что округление:(
-	// {
-		while (i < sprite_size)
+	while (i < sprite_size)
+	{
+		if (h_offset + i >= 0 && h_offset + i < vars->s_width && sprite_dist < vars->ray_length[h_offset + i])
 		{
-			if (h_offset + i >= 0 && h_offset + i < vars->s_width && sprite_dist < vars->ray_length[h_offset + i])
+			j = 0;
+			while (j < sprite_size)
 			{
-				j = 0;
-				while (j < sprite_size)
+				if (v_offset + j >= 0 && v_offset + j < vars->s_height)
 				{
-					if (v_offset + j >= 0 && v_offset + j < vars->s_height)
-					{
-						cur_color = my_mlx_pixel_get_color(&vars->sprites->img_sprite, i*64/sprite_size, j*64/sprite_size);
+					cur_color = my_mlx_pixel_get_color(&vars->sprites->img_sprite, i*64/sprite_size, j*64/sprite_size);
+					if (cur_color != -16777216 && cur_color != 0)
 						my_mlx_pixel_put(&(vars->img), h_offset + i, v_offset + j, cur_color);
-					}
-					j++;
 				}
+				j++;
 			}
-			i++;
 		}
-	// }
+		i++;
+	}
 }
 
 int create_walls(t_vars *vars, double current_len, int num_wall)
