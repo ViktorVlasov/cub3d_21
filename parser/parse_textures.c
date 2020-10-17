@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/17 12:37:45 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/13 21:10:50 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/17 19:19:38 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 int	parse_textures(t_txtr *textures, char **parsed_line, unsigned char *flags)
 {
 	int		fd;
-	
-	if (get_amount_line(parsed_line) != 2  || (fd = open(parsed_line[1], O_RDONLY)) == -1)
+
+	if (get_amount_line(parsed_line) != 2
+	|| (fd = open(parsed_line[1], O_RDONLY)) == -1)
 		return (-1);
 	if (!(ft_strcmp(parsed_line[0], "NO\0")) && (*flags = *flags | FLG_NORTH))
 		textures->no_texture = ft_strdup(parsed_line[1]);

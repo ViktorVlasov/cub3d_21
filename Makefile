@@ -3,22 +3,22 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+         #
+#    By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/15 11:26:54 by efumiko           #+#    #+#              #
-#    Updated: 2020/10/12 23:03:34 by ddraco           ###   ########.fr        #
+#    Updated: 2020/10/17 20:28:30 by efumiko          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3D
 
-CC = clang
-
 SRC = main.c parser/ft_utils_parser.c parser/get_next_line.c \
 parser/parse_map.c parser/parse_params.c parser/parse_resolution.c \
 parser/parse_textures.c parser/parser.c \
 graphics/start.c graphics/raycasting.c graphics/handle_press.c \
-graphics/ft_paint.c graphics/get_coord_player.c
+graphics/ft_paint.c graphics/get_coord_player.c graphics/screen.c \
+graphics/ft_paint_utils.c graphics/angle_working.c \
+graphics/angle_working_utils.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -33,7 +33,7 @@ $(NAME):$(OBJ)
 	$(MAKE) bonus -C libft
 	cp mlx/libmlx.dylib .
 	cp libft/libft.a .
-	gcc -o $(NAME) $(FLAGS) $(OBJ) -L. -lft libmlx*
+	cc -o $(NAME) $(FLAGS) $(OBJ) -L. -lft libmlx*
 
 clean:
 	rm -rf $(OBJ)

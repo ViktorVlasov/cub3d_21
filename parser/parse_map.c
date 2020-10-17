@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.21-school1-school.ruu>     +#+  +:+       +#+        */
+/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/08/18 23:13:15 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/06 21:37:291 by efumiko          ###   ########.fr       */
+/*   Created: 2020/10/17 19:14:31 by efumiko           #+#    #+#             */
+/*   Updated: 2020/10/17 19:18:54 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ t_list	*map_to_list(int fd, char **line, t_params *params)
 	head = NULL;
 	while (get_next_line(fd, line))
 	{
-		params->len_x = (int)ft_strlen(*line) > params->len_x ? (int)ft_strlen(*line) : params->len_x;
+		if ((int)ft_strlen(*line) > params->len_x)
+			params->len_x = (int)ft_strlen(*line);
 		if ((*line)[0] == '\0' && check_empty == 1)
 		{
 			free_all(*line, head);
@@ -54,7 +55,8 @@ t_list	*map_to_list(int fd, char **line, t_params *params)
 			ft_lstadd_back(&head, ft_lstnew(*line));
 		}
 	}
-	params->len_x = (int)ft_strlen(*line) > params->len_x ? (int)ft_strlen(*line) : params->len_x;
+	if ((int)ft_strlen(*line) > params->len_x)
+		params->len_x = (int)ft_strlen(*line);
 	ft_lstadd_back(&head, ft_lstnew(*line));
 	return (head);
 }

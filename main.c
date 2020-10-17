@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 19:47:35 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/10 22:30:47 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/17 19:14:04 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int			main(int argc, char **argv)
 
 	if (argc == 1 || ft_check_dotcub(argv[1])
 	|| ((fd = open(argv[1], O_RDONLY)) < 0))
-		ft_error(1);
+		return (ft_error(1));
 	if (argc > 3 || (argc == 3 && ft_strcmp(argv[2], "--save") != 0))
 		return (argc > 3 ? ft_error(2) : ft_error(3));
 	if (argc == 3 && ft_strcmp(argv[2], "--save") == 0)

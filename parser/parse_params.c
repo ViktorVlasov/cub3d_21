@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/17 16:34:53 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/12 18:02:55 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/17 19:16:17 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int		ft_create_color(int red, int green, int blue)
 		return (red << 16 | green << 8 | blue);
 	return (-1);
 }
-//r << 16 | g << 8 | b
 
 int		ft_valid_numbers(char **colors)
 {

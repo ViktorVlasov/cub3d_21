@@ -6,36 +6,35 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/08 01:06:45 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/14 00:57:31 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/17 19:23:19 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+void		my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
-	char    *dst;
+	char	*dst;
 
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8)); // Находим адрес пикселя
-	*(unsigned int*)dst = color; // Закрашиваем его
-
+	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+	*(unsigned int*)dst = color;
 }
 
-int		my_mlx_pixel_get_color(t_data *data, int x, int y)
+int			my_mlx_pixel_get_color(t_data *data, int x, int y)
 {
-	char    *dst;
-	int color;
+	char	*dst;
+	int		color;
 
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8)); // Находим адрес пикселя
-	color = *(unsigned int*)dst; // Закрашиваем его
+	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+	color = *(unsigned int*)dst;
 	return (color);
 }
 
-void	my_mlx_draw_square(t_data *data, int x1, int y1, int color)
+void		my_mlx_draw_square(t_data *data, int x1, int y1, int color)
 {
-	int x_up;
-	int y_up;
-	int tmp;
+	int		x_up;
+	int		y_up;
+	int		tmp;
 
 	tmp = x1;
 	x_up = x1 + BLOCK_SIZE;
@@ -52,18 +51,23 @@ void	my_mlx_draw_square(t_data *data, int x1, int y1, int color)
 	}
 }
 
-void	t_draw_map(t_data *img, char **map)
+void		t_draw_map(t_data *img, char **map)
 {
-	int x = 0;
-	int y = 0;
-	int i = 0;
-	int elem = 0;
+	int		x;
+	int		y;
+	int		i;
+	int		elem;
+
+	x = 0;
+	y = 0;
+	i = 0;
+	elem = 0;
 	while (map[i])
 	{
 		elem = 0;
 		x = 0;
 		while (map[i][elem])
-		{  
+		{
 			if (map[i][elem] == '1')
 				my_mlx_draw_square(img, x, y, RED);
 			else
