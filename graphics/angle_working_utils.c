@@ -3,26 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   angle_working_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 20:19:03 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/17 21:28:38 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/19 00:03:48 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
-
-void		print_ray(t_data *img, int x, int y, double start, double len)
-{
-	int		c;
-
-	c = 0;
-	while (c < (int)len)
-	{
-		my_mlx_pixel_put(img, x + c * cos(start), y - c * sin(start), 0xFF9900);
-		c++;
-	}
-}
 
 int			ft_look_up(double f)
 {

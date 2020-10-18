@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/12 13:04:36 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/08 00:13:00 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/19 00:09:26 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char			*ft_strrchr(const char *s, int c);
 char			*ft_strdup(const char *src);
 void			*ft_calloc(size_t num, size_t size);
 char			*ft_strcpy(char *dst, const char *src);
-void    		ft_strdel(char **s);
+void			ft_strdel(char **s);
 
 int				ft_isalpha(int c);
 int				ft_isdigit(int c);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 19:14:31 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/17 23:37:36 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/19 00:07:44 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,11 @@ int		ft_choice_mass(char **map, char *set)
 	return (1);
 }
 
-t_list	*map_to_list(int fd, char **line, t_params *params)
+t_list	*map_to_list(int fd, char **line, t_params *params,\
+						int check_empty)
 {
 	t_list	*head;
-	int		check_empty;
 
-	check_empty = 0;
 	head = NULL;
 	while (get_next_line(fd, line))
 	{
@@ -46,14 +45,16 @@ t_list	*map_to_list(int fd, char **line, t_params *params)
 			params->len_x = (int)ft_strlen(*line);
 		if ((*line)[0] == '\0' && check_empty == 1)
 		{
-			free_all(*line, head);
+			ft_lstclear(&head, free);
 			return (NULL);
 		}
-		if ((*line)[0] != '\0')
+		else if ((*line)[0] != '\0')
 		{
 			check_empty = 1;
 			ft_lstadd_back(&head, ft_lstnew(*line));
 		}
+		else if (*line)
+			free(*line);
 	}
 	if ((int)ft_strlen(*line) > params->len_x)
 		params->len_x = (int)ft_strlen(*line);
@@ -65,21 +66,23 @@ char	**list_to_arr(char **line, t_list *head, t_params *params)
 {
 	int		i;
 	char	**map;
+	t_list	*tmp;
 
+	tmp = head;
 	params->len_y = ft_lstsize(head);
 	if ((map = ft_calloc(ft_lstsize(head) + 1, sizeof(char*))) == NULL)
 	{
-		free_all(*line, head);
+		ft_lstclear(&head, free);
 		return (NULL);
 	}
 	i = 0;
-	while (head)
+	while (tmp)
 	{
-		map[i] = ft_strdup(head->content);
+		map[i] = ft_strdup(tmp->content);
 		i++;
-		head = head->next;
+		tmp = tmp->next;
 	}
-	free_all(*line, head);
+	ft_lstclear(&head, free);
 	return (map);
 }
 
@@ -88,22 +91,13 @@ char	**get_map(int fd, t_params *params)
 	char	**map;
 	char	*line;
 	t_list	*head;
-	int		i;
 
-	if (!(head = map_to_list(fd, &line, params)))
+	if (!(head = map_to_list(fd, &line, params, 0)))
 		return (NULL);
 	if (!(map = list_to_arr(&line, head, params)))
 		return (NULL);
 	if (ft_pos(map) && ft_full_map(map) && ft_choice_mass(map, " 012SNWE"))
-	{
-		i = 0;
-		while (map[i])
-		{
-			// printf("Строка номер %d: %s\n", i, map[i]);
-			i++;
-		}
 		return (map);
-	}
 	else
 	{
 		ft_free_array(&map);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 23:35:22 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/17 23:40:22 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/19 00:04:12 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,24 +41,25 @@ static	void	init_mlx_texture(t_vars *vars, t_txtr *textures)
 {
 	vars->textur.n_img.img = mlx_xpm_file_to_image(vars->mlx, textures->\
 	no_texture, &vars->textur.n_img.img_width, &vars->textur.n_img.img_height);
-	vars->textur.n_img.addr = mlx_get_data_addr(vars->textur.n_img.img,\
-	&vars->textur.n_img.bits_per_pixel, \
-	&vars->textur.n_img.line_length, &vars->textur.n_img.endian);
 	vars->textur.s_img.img = mlx_xpm_file_to_image(vars->mlx, \
 	textures->so_texture, &vars->textur.s_img.img_width, \
 	&vars->textur.s_img.img_height);
-	vars->textur.s_img.addr = mlx_get_data_addr(vars->textur.s_img.img,\
-	&vars->textur.s_img.bits_per_pixel, \
-	&vars->textur.s_img.line_length, &vars->textur.s_img.endian);
 	vars->textur.w_img.img = mlx_xpm_file_to_image(vars->mlx, \
 	textures->we_texture, &vars->textur.w_img.img_width, \
 	&vars->textur.w_img.img_height);
-	vars->textur.w_img.addr = mlx_get_data_addr(vars->textur.w_img.img,\
-	&vars->textur.w_img.bits_per_pixel, \
-	&vars->textur.w_img.line_length, &vars->textur.w_img.endian);
 	vars->textur.e_img.img = mlx_xpm_file_to_image(vars->mlx, \
 	textures->ea_texture, &vars->textur.e_img.img_width,\
 	&vars->textur.e_img.img_height);
+	check_textur_correct(vars);
+	vars->textur.n_img.addr = mlx_get_data_addr(vars->textur.n_img.img,\
+	&vars->textur.n_img.bits_per_pixel, \
+	&vars->textur.n_img.line_length, &vars->textur.n_img.endian);
+	vars->textur.s_img.addr = mlx_get_data_addr(vars->textur.s_img.img,\
+	&vars->textur.s_img.bits_per_pixel, \
+	&vars->textur.s_img.line_length, &vars->textur.s_img.endian);
+	vars->textur.w_img.addr = mlx_get_data_addr(vars->textur.w_img.img,\
+	&vars->textur.w_img.bits_per_pixel, \
+	&vars->textur.w_img.line_length, &vars->textur.w_img.endian);
 	vars->textur.e_img.addr = mlx_get_data_addr(vars->textur.e_img.img, \
 	&vars->textur.e_img.bits_per_pixel, \
 	&vars->textur.e_img.line_length, &vars->textur.e_img.endian);
@@ -76,7 +77,7 @@ void			init_sprites(t_vars *vars, t_txtr *textures)
 		if (!(vars->sprites[i].img_sprite.img = mlx_xpm_file_to_image(vars->mlx,
 			textures->sprite_texture, &vars->sprites[i].img_sprite.img_width,
 				&vars->sprites[i].img_sprite.img_height)))
-			ft_error(1);
+			ft_error(7);
 		vars->sprites[i].img_sprite.addr = \
 			mlx_get_data_addr(vars->sprites[i].img_sprite.img, \
 			&vars->sprites[i].img_sprite.bits_per_pixel, \
@@ -115,18 +116,6 @@ void			sort_sprites(t_vars *vars)
 		}
 }
 
-void			ft_end_game(t_vars *vars)
-{
-	int			i;
-
-	i = 0;
-	if (vars->sprites)
-		free(vars->sprites);
-	ft_free_array(&vars->map);
-	if (vars->ray_length)
-		free(vars->ray_length);
-}
-
 int				start(t_params *params, t_txtr *textures, int screen)
 {
 	t_vars		vars;
@@ -134,6 +123,7 @@ int				start(t_params *params, t_txtr *textures, int screen)
 
 	init_vars(&vars, params);
 	init_mlx_texture(&vars, textures);
+	free_textures(textures);
 	get_coordinates(&vars);
 	ft_count_sprites(&vars);
 	init_sprites(&vars, textures);
@@ -143,12 +133,13 @@ int				start(t_params *params, t_txtr *textures, int screen)
 	i = -1;
 	while (++i < vars.sprites_amount)
 		get_sprite(&vars, i);
+	if (vars.ray_length)
+		free(vars.ray_length);
 	mlx_put_image_to_window(vars.mlx, vars.win_mlx, vars.img.img, 0, 0);
 	if (screen == 1)
 		create_bmp(&vars);
 	mlx_hook(vars.win_mlx, 17, 0, ft_close, &vars);
 	mlx_hook(vars.win_mlx, 2, 0L, events, &vars);
 	mlx_loop(vars.mlx);
-	ft_end_game(&vars);
 	return (0);
 }

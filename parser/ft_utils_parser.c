@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils_parser.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 15:40:39 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/10 22:19:12 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/18 23:16:06 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,6 @@ int		get_amount_line(char **lines)
 	return (i);
 }
 
-void	free_all(char *line, t_list *head)
-{
-	ft_lstclear(&head, free);
-	free(line);
-}
-
 int		ft_pos(char **map)
 {
 	int	i;
@@ -67,18 +61,4 @@ int		ft_pos(char **map)
 		i++;
 	}
 	return (pos == 1 ? 1 : 0);
-}
-
-int		ft_choice(char c, char *str)
-{
-	int i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (c == str[i])
-			return (1);
-		i++;
-	}
-	return (0);
 }

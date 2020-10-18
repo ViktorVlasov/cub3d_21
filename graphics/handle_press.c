@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_press.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/08 00:27:54 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/17 22:03:03 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/18 22:35:12 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,8 @@ int			events(int keycode, t_vars *vars)
 	sort_sprites(vars);
 	while (++i < vars->sprites_amount)
 		get_sprite(vars, i);
+	if (vars->ray_length)
+		free(vars->ray_length);
 	mlx_put_image_to_window(vars->mlx, vars->win_mlx, vars->img.img, 0, 0);
 	return (0);
 }

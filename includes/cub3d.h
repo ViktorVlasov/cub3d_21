@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 23:35:31 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/17 23:34:22 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/19 00:09:00 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,9 +134,7 @@ int				parse_params(t_params *params, char **parsed_line,\
 char			**get_map(int fd, t_params *params);
 void			ft_free_array(char ***ar);
 int				ft_pos(char **map);
-int				ft_choice(char c, char *str);
 int				ft_choice_mass(char **map, char *set);
-void			free_all(char *line, t_list *head);
 int				ft_full_map(char **map);
 void			get_sprite_cord(t_vars *vars);
 void			ft_count_sprites(t_vars *vars);
@@ -162,7 +160,9 @@ int				my_mlx_pixel_get_color(t_data *data, int x, int y);
 void			create_bmp(t_vars *vars);
 void			get_sprite(t_vars *vars, int num_sprite);
 void			sort_sprites(t_vars *vars);
-int				get_cur_color(t_vars *vars, t_data *current_texture, int y_pixel);
-void			ft_end_game(t_vars *vars);
+int				get_cur_color(t_vars *vars, t_data *current_texture,\
+										int y_pixel);
+void			free_textures(t_txtr *textures);
+void			check_textur_correct(t_vars *vars);
 
 #endif

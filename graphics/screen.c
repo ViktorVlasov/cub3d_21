@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   screen.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 23:23:18 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/17 23:32:00 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/18 23:11:47 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,5 @@ void	create_bmp(t_vars *vars)
 	ft_create_bmp_head(vars, size_bmp, fd);
 	ft_create_bmp_2(vars, fd);
 	close(fd);
-	// ft_end_game(vars);
 	exit(0);
 }

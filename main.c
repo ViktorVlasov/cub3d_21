@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/08/11 19:47:35 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/17 23:39:08 by efumiko          ###   ########.fr       */
+/*   Created: 2020/10/18 21:19:34 by ddraco            #+#    #+#             */
+/*   Updated: 2020/10/18 23:27:35 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,17 +56,19 @@ int			ft_check_dotcub(char *path)
 void		ft_error(int flag)
 {
 	if (flag == 1)
-		ft_putstr_fd("Error file", 1);
+		ft_putstr_fd("Error\nError file", 1);
 	if (flag == 2)
-		ft_putstr_fd("Error amount arguments", 1);
+		ft_putstr_fd("Error\nError amount arguments", 1);
 	if (flag == 3)
-		ft_putstr_fd("Error second arguments", 1);
+		ft_putstr_fd("Error\nError second arguments", 1);
 	if (flag == 4)
-		ft_putstr_fd("Error allocate memory", 1);
+		ft_putstr_fd("Error\nError allocate memory", 1);
 	if (flag == 5)
-		ft_putstr_fd("Error uncorrect strings in file", 1);
+		ft_putstr_fd("Error\nError uncorrect strings in file", 1);
 	if (flag == 6)
-		ft_putstr_fd("Error map format", 1);
+		ft_putstr_fd("Error\nError map format", 1);
+	if (flag == 7)
+		ft_putstr_fd("Error\nBad textures", 1);
 	exit(0);
 }
 
@@ -94,5 +96,4 @@ int			main(int argc, char **argv)
 		ft_error(6);
 	close(fd);
 	start(params, textures, screen);
-	// ft_free_array(&params->map);
 }

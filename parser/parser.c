@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 09:52:08 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/10 21:58:23 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/18 23:13:49 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,10 @@ int		parser(t_params *params, t_txtr *textures, int fd)
 	char			*line;
 	unsigned char	flags;
 	char			**parsed_line;
+	int				check;
 
 	flags = FLG_NONE;
-	while (flags != 255 && get_next_line(fd, &line))
+	while (flags != 255 && (check = get_next_line(fd, &line)))
 	{
 		parsed_line = ft_split(line, ' ');
 		if (line[0] != '\0')
@@ -68,6 +69,7 @@ int		parser(t_params *params, t_txtr *textures, int fd)
 				return (ft_free_parse(params, textures, parsed_line, line));
 		free(line);
 		ft_free_array(&parsed_line);
+		check = 0;
 	}
 	return (0);
 }
