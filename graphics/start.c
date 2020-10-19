@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 23:35:22 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/19 00:04:12 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/10/19 11:23:15 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,10 +123,10 @@ int				start(t_params *params, t_txtr *textures, int screen)
 
 	init_vars(&vars, params);
 	init_mlx_texture(&vars, textures);
-	free_textures(textures);
 	get_coordinates(&vars);
 	ft_count_sprites(&vars);
 	init_sprites(&vars, textures);
+	free_textures(textures);
 	get_sprite_cord(&vars);
 	cast_ray(&vars);
 	sort_sprites(&vars);

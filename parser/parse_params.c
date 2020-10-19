@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/17 16:34:53 by efumiko           #+#    #+#             */
-/*   Updated: 2020/10/17 19:16:17 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/10/19 12:01:24 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ int		ft_valid_numbers(char **colors)
 		}
 		i++;
 	}
+	if (i != 3)
+		return (-1);
 	return (0);
 }
 
@@ -55,12 +57,16 @@ int		parse_params(t_params *params, char **parsed_line, unsigned char *flags)
 	}
 	if (!ft_strcmp(parsed_line[0], "F")
 	&& (*flags = *flags | FLG_FLOOR))
-		params->floor_color = ft_create_color(ft_atoi(colors[0]),
-		ft_atoi(colors[1]), ft_atoi(colors[2]));
+	{
+		if ((params->floor_color = ft_create_color(ft_atoi(colors[0]),
+			ft_atoi(colors[1]), ft_atoi(colors[2]))) == -1)
+			ft_error(5);
+	}
 	else if (!ft_strcmp(parsed_line[0], "C")
 	&& (*flags = *flags | FLG_CEIL))
-		params->ceilling_color = ft_create_color(ft_atoi(colors[0]),
-				ft_atoi(colors[1]), ft_atoi(colors[2]));
+		if ((params->ceilling_color = ft_create_color(ft_atoi(colors[0]),
+			ft_atoi(colors[1]), ft_atoi(colors[2]))) == -1)
+			ft_error(5);
 	ft_free_array(&colors);
 	return (0);
 }

@@ -1,9 +1,9 @@
 R 1600 900
-NO ./textures/woodwall.xpm
-SO ./textures/widk.xpm
+NO ./textures/widk.xpm
+SO ./textures/4.xpm
 WE ./textures/wall1v.xpm
 EA ./textures/wstone.xpm
-S ./textures/Tree1.xpm
+S ./textures/Tree.xpm
 
 F 220,100,0
 C 110,100,208
